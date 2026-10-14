@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+.env
+.env.*
+
+# Downloaded on-device AI assets (fetched by `npm run setup`)
+frontend/public/wasm/
+frontend/public/models/

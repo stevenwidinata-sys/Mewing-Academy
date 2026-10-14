@@ -1,0 +1,228 @@
+@import '@fontsource/press-start-2p/index.css';
+@import '@fontsource/atkinson-hyperlegible/400.css';
+@import '@fontsource/atkinson-hyperlegible/700.css';
+
+/* ---- Design tokens: 8-bit arcade, primary yellow ---- */
+:root {
+  --yellow: #ffcc00;
+  --yellow-deep: #e0a800;
+  --ink: #1a1430;
+  --bg: #241b4a;
+  --bg-2: #130d2e;
+  --panel: #2e2360;
+  --panel-light: #413085;
+  --cyan: #27e0d8;
+  --pink: #ff5ca8;
+  --green: #3bb54a;
+  --red: #e83b3b;
+  --white: #fdf6e3;
+  --shadow: #0c0820;
+
+  --font-pixel: 'Press Start 2P', 'Courier New', monospace;
+  --font-read: 'Atkinson Hyperlegible', system-ui, sans-serif;
+  --font-ui: var(--font-pixel);
+
+  --text: var(--white);
+  --accent: var(--yellow);
+  --focus: var(--cyan);
+
+  --space: 1rem;
+  --radius: 0px; /* crisp pixel corners */
+  --scale: 1;
+}
+
+/* ---- Accessibility: easy-to-read font swaps pixel font everywhere ---- */
+:root[data-font='readable'] {
+  --font-ui: var(--font-read);
+}
+:root[data-text-size='large'] {
+  --scale: 1.15;
+}
+:root[data-text-size='xlarge'] {
+  --scale: 1.3;
+}
+
+/* High contrast: black/yellow, remove subtle panels */
+:root[data-contrast='high'] {
+  --bg: #000000;
+  --bg-2: #000000;
+  --panel: #000000;
+  --panel-light: #000000;
+  --text: #ffffff;
+  --accent: #ffe600;
+  --focus: #ffffff;
+  --white: #ffffff;
+}
+
+/* Reduced / calm motion */
+:root[data-motion='reduced'] * {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: calc(100% * var(--scale));
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  color: var(--text);
+  background: var(--bg-2);
+  line-height: 1.6;
+  -webkit-font-smoothing: none;
+  image-rendering: pixelated;
+}
+
+/* Starfield-ish arcade backdrop (static dots so it is calm) */
+#root {
+  min-height: 100vh;
+  background:
+    radial-gradient(2px 2px at 20% 30%, rgba(255, 255, 255, 0.5) 50%, transparent 51%),
+    radial-gradient(2px 2px at 70% 60%, rgba(255, 255, 255, 0.35) 50%, transparent 51%),
+    radial-gradient(2px 2px at 40% 80%, rgba(255, 255, 255, 0.3) 50%, transparent 51%),
+    radial-gradient(2px 2px at 90% 20%, rgba(255, 255, 255, 0.4) 50%, transparent 51%),
+    linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 100%);
+  background-attachment: fixed;
+}
+:root[data-contrast='high'] #root {
+  background: #000;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-pixel);
+  line-height: 1.4;
+  color: var(--accent);
+  text-shadow: 3px 3px 0 var(--shadow);
+}
+:root[data-font='readable'] h1,
+:root[data-font='readable'] h2,
+:root[data-font='readable'] h3 {
+  font-family: var(--font-read);
+  font-weight: 700;
+}
+
+a {
+  color: var(--cyan);
+}
+
+/* ---- Pixel buttons / panels ---- */
+.pixel-panel {
+  background: var(--panel);
+  border: 4px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--shadow);
+  padding: var(--space);
+}
+
+.btn {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--ink);
+  background: var(--yellow);
+  border: 4px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--shadow);
+  padding: 0.8em 1.1em;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: transform 0.08s, box-shadow 0.08s;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--shadow);
+}
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--shadow);
+}
+.btn--secondary {
+  background: var(--cyan);
+}
+.btn--ghost {
+  background: var(--panel-light);
+  color: var(--white);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Visible keyboard focus for everyone */
+:where(a, button, input, select, [tabindex]):focus-visible {
+  outline: 4px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* Screen-reader-only text, and a skip link that appears on focus */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.skip-link {
+  position: absolute;
+  left: 0.5rem;
+  top: -4rem;
+  z-index: 100;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 0.5rem;
+}
+
+input,
+select {
+  font-family: var(--font-read);
+  font-size: 1rem;
+  padding: 0.6em;
+  border: 3px solid var(--ink);
+  background: var(--white);
+  color: var(--ink);
+}
+
+/* Blink used sparingly; disabled by calm mode above */
+@keyframes blink {
+  50% {
+    opacity: 0.3;
+  }
+}
+.blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.6);
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.pop {
+  animation: pop 0.25s ease-out;
+}
