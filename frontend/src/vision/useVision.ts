@@ -19,10 +19,12 @@ interface Options {
   onFrame: (frame: VisionFrame) => void;
 }
 
-// Assets are served locally from /public (see scripts/setup-vision.mjs).
-const WASM_PATH = '/wasm';
-const HAND_MODEL = '/models/hand_landmarker.task';
-const FACE_MODEL = '/models/face_landmarker.task';
+// Assets are served locally from the app base (see scripts/setup-vision.mjs).
+// BASE_URL is "/" in dev and "/<repo>/" on GitHub Pages.
+const BASE = import.meta.env.BASE_URL;
+const WASM_PATH = `${BASE}wasm`;
+const HAND_MODEL = `${BASE}models/hand_landmarker.task`;
+const FACE_MODEL = `${BASE}models/face_landmarker.task`;
 
 /**
  * Owns the webcam stream and the MediaPipe landmarkers. Everything runs

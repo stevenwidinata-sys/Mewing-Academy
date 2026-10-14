@@ -4,6 +4,7 @@ import { QUIZ_TOPICS, type QuizTopic } from '../../../shared/questions';
 import { TOPICS, type Difficulty, type Question } from '../../../shared/types';
 import { CameraStage } from '../components/CameraStage';
 import { ChoiceGrid } from '../components/ChoiceGrid';
+import { Confetti } from '../components/Confetti';
 import { LevelPicker } from '../components/LevelPicker';
 import { SpriteScene } from '../components/Sprite';
 import { fetchQuestions } from '../lib/api';
@@ -125,6 +126,7 @@ function Playing({ questions, hover, setHover, setLevel, level, changeTopic, lan
   if (state.done) {
     return (
       <section style={{ textAlign: 'center' }}>
+        <Confetti fire={state.correctCount >= Math.ceil(quiz.total / 2) ? state.correctCount : 0} />
         <h1>⭐ {state.correctCount}/{quiz.total}</h1>
         <p style={{ fontFamily: 'var(--font-read)', fontSize: '1.2rem' }}>
           {state.correctCount === quiz.total ? tr('posturePerfect') : tr('correct')}

@@ -62,6 +62,34 @@ The tutor is deterministic and kid-safe by design (every answer is pre-written,
 and it refuses to discuss personal info). Its `TutorReply` shape leaves room to
 swap in a real LLM later without changing the UI.
 
+### Optional: real-AI tutor ("Smart Mewy")
+
+Set an API key and the backend upgrades the tutor to a real LLM, keeping the
+same kid-safe guardrails (strict system prompt + an unsafe-content filter +
+a short timeout). Without a key it uses the built-in rule-based tutor.
+
+```bash
+cd backend
+cp .env.example .env   # then add MEWING_LLM_API_KEY=...
+```
+
+Works with any OpenAI-compatible endpoint (OpenAI, Azure, OpenRouter, a local
+server). When enabled, the tutor shows a "✨ Smart Mewy" badge.
+
+### Install it / offline (PWA)
+
+The frontend is an installable Progressive Web App. Visit it in Chrome/Edge and
+choose "Install". The app shell is cached for offline use; the AI model files
+are cached the first time you use the camera.
+
+### Deploy (GitHub Pages)
+
+`.github/workflows/deploy.yml` builds the frontend and publishes it to GitHub
+Pages on every push to `main`. Enable it once in **Settings → Pages → Build and
+deployment → Source: GitHub Actions**. The site is served from
+`https://<user>.github.io/<repo>/`. Pages hosts the frontend only (no backend),
+so games and the tutor fall back to the in-browser logic — still fully playable.
+
 ## Architecture
 
 ```

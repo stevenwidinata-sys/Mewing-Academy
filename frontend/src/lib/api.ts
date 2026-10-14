@@ -39,5 +39,10 @@ export async function askTutor(message: string, lang: Lang): Promise<TutorReply>
   return data ?? tutorReply(message, lang);
 }
 
+/** Whether the backend has a real LLM configured. Null = backend unreachable. */
+export async function fetchConfig(): Promise<{ llm: boolean } | null> {
+  return tryFetch<{ llm: boolean }>('/api/config');
+}
+
 export { isQuizTopic };
 export type { QuizTopic };

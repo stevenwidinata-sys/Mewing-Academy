@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "setup": "node scripts/setup-vision.mjs",
-    "postinstall": "node scripts/setup-vision.mjs",
+    "setup": "node scripts/make-icons.mjs && node scripts/setup-vision.mjs",
+    "postinstall": "node scripts/make-icons.mjs && node scripts/setup-vision.mjs",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "typecheck": "tsc -b --noEmit",
@@ -29,6 +29,7 @@
     "oxlint": "^1.81.0",
     "typescript": "~6.0.2",
     "vite": "^8.3.0",
+    "vite-plugin-pwa": "2.0.0",
     "vitest": "5.0.4"
   }
 }

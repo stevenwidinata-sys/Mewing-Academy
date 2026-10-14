@@ -1,8 +1,9 @@
 import express, { type Request, type Response } from 'express';
 import { makeMemoryRound } from '../../shared/memory';
 import { getQuestions, isQuizTopic } from '../../shared/questions';
-import { MAX_MESSAGE_LENGTH, tutorReply } from '../../shared/tutor';
+import { MAX_MESSAGE_LENGTH } from '../../shared/tutor';
 import type { Difficulty, Lang } from '../../shared/types';
+import { llmEnabled, llmTutorReply } from './llm';
 
 const toDifficulty = (v: unknown): Difficulty => (v === '2' ? 2 : v === '3' ? 3 : 1);
 const toCount = (v: unknown) => Math.min(20, Math.max(1, Number(v) || 5));
@@ -14,6 +15,11 @@ export function createApp() {
 
   app.get('/api/health', (_req, res) => {
     res.json({ ok: true });
+  });
+
+  app.get('/api/config', (_req, res) => {
+    // Lets the frontend show "Smart Mewy" when a real LLM is configured.
+    res.json({ llm: llmEnabled });
   });
 
   app.get('/api/questions', (req: Request, res: Response) => {
@@ -29,14 +35,14 @@ export function createApp() {
     res.json({ round: makeMemoryRound(toDifficulty(req.query.level)) });
   });
 
-  app.post('/api/tutor', (req, res) => {
+  app.post('/api/tutor', async (req, res) => {
     const { message, lang } = (req.body ?? {}) as { message?: unknown; lang?: unknown };
     if (typeof message !== 'string' || !message.trim() || message.length > MAX_MESSAGE_LENGTH) {
       res.status(400).json({ error: `message must be 1-${MAX_MESSAGE_LENGTH} characters` });
       return;
     }
     const l: Lang = lang === 'id' ? 'id' : 'en';
-    res.json(tutorReply(message, l));
+    res.json(await llmTutorReply(message, l));
   });
 
   app.use('/api', (_req, res) => {

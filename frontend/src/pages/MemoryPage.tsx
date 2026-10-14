@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Difficulty, MemoryRound } from '../../../shared/types';
 import { CameraStage } from '../components/CameraStage';
 import { ChoiceGrid } from '../components/ChoiceGrid';
+import { Confetti } from '../components/Confetti';
 import { LevelPicker } from '../components/LevelPicker';
 import { SpriteScene } from '../components/Sprite';
 import { fetchMemoryRound } from '../lib/api';
@@ -102,6 +103,7 @@ export function MemoryPage() {
   if (phase === 'done') {
     return (
       <section style={{ textAlign: 'center' }}>
+        <Confetti fire={correct >= 1 ? correct : 0} />
         <h1>⭐ {correct}/{round.questions.length}</h1>
         <LevelPicker value={level} onChange={setLevel} />
         <div style={{ marginTop: '1rem', display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>

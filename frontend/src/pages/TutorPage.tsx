@@ -1,7 +1,7 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MAX_MESSAGE_LENGTH } from '../../../shared/tutor';
 import { Mewy } from '../components/Mewy';
-import { askTutor } from '../lib/api';
+import { askTutor, fetchConfig } from '../lib/api';
 import { useSettings } from '../state/settings';
 
 interface Msg {
@@ -15,7 +15,12 @@ export function TutorPage() {
   const [messages, setMessages] = useState<Msg[]>([{ from: 'mewy', text: tr('tutorIntro') }]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
+  const [smart, setSmart] = useState(false);
   const listRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    fetchConfig().then((c) => setSmart(Boolean(c?.llm)));
+  }, []);
 
   const send = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,7 +37,14 @@ export function TutorPage() {
 
   return (
     <section>
-      <h1>💬 {tr('navTutor')}</h1>
+      <h1 style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+        💬 {tr('navTutor')}
+        {smart && (
+          <span className="pixel-panel" style={{ fontSize: '0.6rem', padding: '0.3rem 0.6rem', background: 'var(--pink)', color: 'var(--ink)' }}>
+            ✨ Smart Mewy
+          </span>
+        )}
+      </h1>
       <div
         ref={listRef}
         aria-live="polite"
