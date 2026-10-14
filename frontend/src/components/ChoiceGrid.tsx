@@ -38,7 +38,7 @@ export function ChoiceGrid({ choices, hovered, holdProgress = 0, picked, answer,
           <button
             key={i}
             type="button"
-            className="btn"
+            className="btn choice-btn"
             onClick={() => !disabled && !revealed && onPick(i)}
             disabled={disabled || revealed}
             aria-pressed={isPicked}

@@ -14,7 +14,10 @@ export function HomePage() {
   const { tr, settings } = useSettings();
   return (
     <section>
-      <div className="pixel-panel" style={{ textAlign: 'center', background: 'var(--panel)', marginBottom: '2rem' }}>
+      <div className="hero" style={{ marginBottom: '2rem' }}>
+        <span className="hero__float" style={{ left: '8%', top: '20%', fontSize: '2rem' }} aria-hidden="true">⭐</span>
+        <span className="hero__float" style={{ right: '10%', top: '30%', fontSize: '1.6rem', animationDelay: '1.5s' }} aria-hidden="true">🎨</span>
+        <span className="hero__float" style={{ left: '18%', bottom: '12%', fontSize: '1.4rem', animationDelay: '2.5s' }} aria-hidden="true">🔢</span>
         <div className="blink" style={{ display: 'inline-block' }}>
           <Mewy size={96} />
         </div>
@@ -29,8 +32,8 @@ export function HomePage() {
       <h2>{tr('pickGame')}</h2>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
         {GAMES.map((g) => (
-          <Link key={g.to} to={g.to} className="pixel-panel" style={{ textDecoration: 'none', color: 'var(--white)', textAlign: 'center', fontFamily: 'var(--font-pixel)' }}>
-            <div style={{ fontSize: '2.5rem' }}>{g.emoji}</div>
+          <Link key={g.to} to={g.to} className="card card--link" style={{ textDecoration: 'none', color: 'var(--white)', textAlign: 'center', fontFamily: 'var(--font-pixel)' }}>
+            <div className="tile-emoji" style={{ fontSize: '2.5rem' }}>{g.emoji}</div>
             <div style={{ marginTop: 8, color: 'var(--accent)' }}>{tr(g.key)}</div>
           </Link>
         ))}

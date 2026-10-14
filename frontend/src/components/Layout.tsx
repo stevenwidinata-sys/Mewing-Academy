@@ -56,7 +56,7 @@ export function Layout() {
             key={item.to}
             to={item.to}
             end={item.to === '/'}
-            className="btn btn--ghost"
+            className="btn btn--ghost navlink"
             style={({ isActive }) => ({ fontSize: '0.7rem', background: isActive ? 'var(--yellow)' : 'var(--panel-light)', color: isActive ? 'var(--ink)' : 'var(--white)' })}
           >
             {tr(item.key)}

@@ -80,24 +80,30 @@ interface RoundProps {
 
 function QuizRound(props: RoundProps) {
   const { questions, onStart } = props;
-  useEffect(() => {
-    onStart();
-    // Load a fresh round when topic/level changes (key remounts the component).
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  if (!questions) return <Intro {...props} />;
+  // Show the level-select intro until the child presses Start (which loads).
+  if (!questions) return <Intro {...props} onBegin={onStart} />;
   return <Playing {...props} questions={questions} />;
 }
 
-function Intro({ topic, level, setLevel, changeTopic, tr }: RoundProps) {
+function Intro({ topic, level, setLevel, changeTopic, onBegin, tr }: RoundProps & { onBegin: () => void }) {
   const topicMeta = TOPICS.find((t) => t.id === topic)!;
   const { settings } = useSettings();
   return (
     <section style={{ textAlign: 'center' }}>
-      <h1>{topicMeta.title[settings.lang]}</h1>
-      <p style={{ fontFamily: 'var(--font-read)' }}>{tr('loading')}</p>
+      <div className="hero" style={{ marginBottom: '1.5rem' }}>
+        <div className="pop" style={{ display: 'inline-block' }}>
+          <SpriteScene groups={[{ sprite: topicMeta.sprite, color: topicMeta.color, count: 1 }]} size={64} />
+        </div>
+        <h1 style={{ fontSize: '1.3rem' }}>{topicMeta.title[settings.lang]}</h1>
+        <p style={{ fontFamily: 'var(--font-read)', fontSize: '1.05rem', margin: 0 }}>
+          {settings.lang === 'en' ? 'Pick how hard you want it!' : 'Pilih tingkat kesulitannya!'}
+        </p>
+      </div>
       <LevelPicker value={level} onChange={setLevel} />
-      <div style={{ marginTop: '1rem' }}>
+      <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', marginTop: '1.5rem', flexWrap: 'wrap' }}>
+        <button type="button" className="btn" onClick={onBegin} style={{ fontSize: '0.9rem', padding: '1em 1.6em' }}>
+          ▶ {tr('start')}
+        </button>
         <button type="button" className="btn btn--ghost" onClick={changeTopic}>{tr('back')}</button>
       </div>
     </section>

@@ -29,6 +29,12 @@
   --space: 1rem;
   --radius: 0px; /* crisp pixel corners */
   --scale: 1;
+
+  /* Lively gradients + glows (kept gentle for young eyes) */
+  --grad-hero: linear-gradient(120deg, #3a2a7a 0%, #5a2f8f 45%, #883a7e 100%);
+  --grad-sun: linear-gradient(135deg, #ffcc00 0%, #ff8a1f 100%);
+  --panel-glow: linear-gradient(160deg, #352a72 0%, #2a2057 100%);
+  --glow-cyan: 0 0 0 rgba(0, 0, 0, 0);
 }
 
 /* ---- Accessibility: easy-to-read font swaps pixel font everywhere ---- */
@@ -225,4 +231,161 @@ select {
 }
 .pop {
   animation: pop 0.25s ease-out;
+}
+
+/* ============================================================
+   Lively cards + micro-interactions (items 1 & 3)
+   ============================================================ */
+
+/* A richer, non-flat card: subtle gradient, chunky border, drop shadow,
+   and a thin accent stripe on top. Lifts and glows on hover. */
+.card {
+  position: relative;
+  background: var(--panel-glow);
+  border: 4px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--shadow);
+  padding: var(--space);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 5px;
+  background: var(--grad-sun);
+}
+.card--link {
+  cursor: pointer;
+}
+.card--link:hover,
+.card--link:focus-visible {
+  transform: translate(-3px, -4px);
+  box-shadow: 9px 10px 0 var(--shadow), 0 0 18px rgba(39, 224, 216, 0.35);
+  border-color: var(--cyan);
+}
+.card--link:active {
+  transform: translate(1px, 1px);
+  box-shadow: 3px 3px 0 var(--shadow);
+}
+:root[data-contrast='high'] .card {
+  background: #000;
+}
+:root[data-contrast='high'] .card::before {
+  background: var(--accent);
+}
+
+/* Game/topic tiles bounce their emoji on hover */
+.card--link:hover .pop,
+.btn:hover .tile-emoji {
+  animation: wiggle 0.4s ease;
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0); }
+  30% { transform: rotate(-8deg) scale(1.1); }
+  70% { transform: rotate(8deg) scale(1.1); }
+}
+
+/* Buttons: add a soft glow and a quick color pulse on hover */
+.btn {
+  position: relative;
+}
+.btn:hover {
+  box-shadow: 6px 6px 0 var(--shadow), 0 0 14px rgba(255, 204, 0, 0.4);
+}
+.btn--secondary:hover {
+  box-shadow: 6px 6px 0 var(--shadow), 0 0 14px rgba(39, 224, 216, 0.5);
+}
+.btn--ghost:hover {
+  background: var(--panel);
+  box-shadow: 6px 6px 0 var(--shadow), 0 0 14px rgba(155, 77, 224, 0.5);
+}
+
+/* ---- Animated gradient hero ---- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--grad-hero);
+  background-size: 200% 200%;
+  border: 4px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--shadow);
+  padding: 2rem 1rem;
+  text-align: center;
+  animation: heroPan 14s ease-in-out infinite;
+}
+@keyframes heroPan {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+/* floating sprites inside the hero */
+.hero__float {
+  position: absolute;
+  opacity: 0.5;
+  animation: floaty 6s ease-in-out infinite;
+}
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+:root[data-contrast='high'] .hero {
+  background: #000;
+  animation: none;
+}
+
+/* ---- Nav: animated underline on hover/active ---- */
+.navlink {
+  position: relative;
+}
+.navlink::after {
+  content: '';
+  position: absolute;
+  left: 10%;
+  right: 90%;
+  bottom: -2px;
+  height: 3px;
+  background: var(--cyan);
+  transition: right 0.2s ease;
+}
+.navlink:hover::after {
+  right: 10%;
+}
+
+/* ---- Choice buttons: lift + glow handled inline; add a press squish ---- */
+.choice-btn {
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
+}
+.choice-btn:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+.choice-btn:active:not(:disabled) {
+  transform: translateY(1px) scale(0.99);
+}
+
+/* ---- Lesson road ---- */
+.lesson-step {
+  animation: slideUp 0.4s ease both;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.lesson-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2rem;
+  height: 2rem;
+  background: var(--grad-sun);
+  color: var(--ink);
+  border: 3px solid var(--ink);
+  font-family: var(--font-pixel);
+  font-size: 0.8rem;
+}
+
+/* Gentle entrance for page sections */
+main > section {
+  animation: fadeIn 0.3s ease both;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
