@@ -105,6 +105,14 @@ const INTENTS: Intent[] = [
     },
   },
   {
+    id: 'patterns',
+    keywords: ['pattern', 'patterns', 'repeat', 'pola', 'berulang'],
+    reply: {
+      en: 'A pattern is something that repeats, like red, blue, red, blue. Find what repeats, then guess what comes next!',
+      id: 'Pola adalah sesuatu yang berulang, seperti merah, biru, merah, biru. Temukan yang berulang, lalu tebak selanjutnya!',
+    },
+  },
+  {
     id: 'camera',
     keywords: ['camera', 'finger', 'fingers', 'hand', 'answer', 'kamera', 'jari', 'tangan', 'jawab'],
     reply: {

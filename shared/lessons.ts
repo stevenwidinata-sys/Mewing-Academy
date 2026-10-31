@@ -235,6 +235,43 @@ export const LESSONS: Record<LessonTopic, LessonModule[]> = {
       ],
     },
   ],
+  patterns: [
+    {
+      id: 'pattern-1',
+      title: { en: '1. Repeating Colors', id: '1. Warna Berulang' },
+      goal: { en: 'Find what repeats.', id: 'Temukan yang berulang.' },
+      steps: [
+        {
+          text: { en: 'Red, blue, red, blue... The colors take turns!', id: 'Merah, biru, merah, biru... Warnanya bergantian!' },
+          visual: [g('ball', 'red', 1), g('ball', 'blue', 1), g('ball', 'red', 1), g('ball', 'blue', 1)],
+          example: { en: 'Next is red.', id: 'Selanjutnya merah.' },
+        },
+      ],
+    },
+    {
+      id: 'pattern-2',
+      title: { en: '2. Shape Patterns', id: '2. Pola Bentuk' },
+      goal: { en: 'Shapes can repeat too.', id: 'Bentuk juga bisa berulang.' },
+      steps: [
+        {
+          text: { en: 'Square, triangle, square, triangle... What comes next?', id: 'Persegi, segitiga, persegi, segitiga... Apa selanjutnya?' },
+          visual: [g('square', 'green', 1), g('triangle', 'green', 1), g('square', 'green', 1), g('triangle', 'green', 1)],
+          example: { en: 'A square!', id: 'Persegi!' },
+        },
+      ],
+    },
+    {
+      id: 'pattern-3',
+      title: { en: '3. Number Patterns', id: '3. Pola Angka' },
+      goal: { en: 'Count by 2s, 5s and 10s.', id: 'Berhitung lompat 2, 5, dan 10.' },
+      steps: [
+        {
+          text: { en: '2, 4, 6, 8... each number jumps up by 2.', id: '2, 4, 6, 8... setiap angka melompat naik 2.' },
+          example: { en: 'Next is 10.', id: 'Selanjutnya 10.' },
+        },
+      ],
+    },
+  ],
 };
 
 export function getLessons(topic: LessonTopic): LessonModule[] {

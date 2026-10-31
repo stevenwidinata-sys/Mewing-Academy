@@ -11,6 +11,7 @@ const BLURB: Record<Exclude<TopicId, 'memory'>, Text> = {
   shapes: { en: 'Circles, squares, triangles and their corners.', id: 'Lingkaran, persegi, segitiga, dan sudutnya.' },
   animals: { en: 'Sounds, homes, and fun facts about animals.', id: 'Suara, tempat tinggal, dan fakta hewan.' },
   letters: { en: 'The alphabet, first letters, and vowels.', id: 'Alfabet, huruf awal, dan huruf vokal.' },
+  patterns: { en: 'Spot what repeats: colors, shapes and numbers.', id: 'Temukan yang berulang: warna, bentuk, dan angka.' },
 };
 
 export function LessonsPage() {

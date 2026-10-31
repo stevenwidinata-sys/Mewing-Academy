@@ -526,7 +526,80 @@ function letters(rng: Rng, d: Difficulty): Question {
   );
 }
 
-export const QUIZ_TOPICS = ['counting', 'math', 'colors', 'shapes', 'animals', 'letters'] as const;
+export const QUIZ_TOPICS = ['counting', 'math', 'colors', 'shapes', 'animals', 'letters', 'patterns'] as const;
+
+/**
+ * Patterns. Level 1: AB color patterns. Level 2: ABC / AAB colors or repeating
+ * shapes. Level 3: number patterns (count by 2s, 3s, 5s, 10s, or down).
+ */
+function patterns(rng: Rng, d: Difficulty): Question {
+  if (d === 3) {
+    const down = rng() < 0.3;
+    const step = down ? pick(rng, [1, 2]) : pick(rng, [2, 3, 5, 10]);
+    const start = down ? randInt(rng, 12, 20) : randInt(rng, 0, 5);
+    const dir = down ? -1 : 1;
+    const seq = [0, 1, 2, 3].map((i) => start + dir * step * i);
+    const next = start + dir * step * 4;
+    return build(
+      rng,
+      {
+        topic: 'patterns',
+        difficulty: d,
+        prompt: { en: `What comes next? ${seq.join(', ')}, ...`, id: `Apa selanjutnya? ${seq.join(', ')}, ...` },
+        explain: {
+          en: `Each number goes ${down ? 'down' : 'up'} by ${step}.`,
+          id: `Setiap angka ${down ? 'turun' : 'naik'} ${step}.`,
+        },
+      },
+      numChoice(next),
+      nearNumbers(rng, next, 3, 0).map(numChoice),
+    );
+  }
+
+  if (d === 2 && rng() < 0.4) {
+    const pool: SpriteId[] = ['square', 'triangle', 'ball', 'star'];
+    const [a, b, c] = shuffle(rng, pool);
+    const unit = rng() < 0.5 ? [a, b] : [a, b, c];
+    const len = randInt(rng, unit.length + 2, unit.length * 2 + 1);
+    const color = pick(rng, COLOR_IDS);
+    const seq = Array.from({ length: len }, (_, i) => unit[i % unit.length]);
+    const ans = unit[len % unit.length];
+    return build(
+      rng,
+      {
+        topic: 'patterns',
+        difficulty: d,
+        prompt: { en: 'Which shape comes next?', id: 'Bentuk apa selanjutnya?' },
+        visual: seq.map((s) => ({ sprite: s, color, count: 1 })),
+        explain: { en: 'The shapes repeat in the same order.', id: 'Bentuknya berulang dengan urutan yang sama.' },
+      },
+      { label: SHAPE_NAME[ans]! },
+      shuffle(rng, pool.filter((s) => s !== ans)).slice(0, 3).map((s) => ({ label: SHAPE_NAME[s]! })),
+    );
+  }
+
+  const shuffled = shuffle(rng, COLOR_IDS);
+  const unit: ColorId[] =
+    d === 1 ? shuffled.slice(0, 2) : rng() < 0.5 ? shuffled.slice(0, 3) : [shuffled[0], shuffled[0], shuffled[1]];
+  const len = randInt(rng, unit.length + 1, unit.length * 2 + 1);
+  const sprite = pick(rng, ['ball', 'heart', 'star', 'square'] as SpriteId[]);
+  const seq = Array.from({ length: len }, (_, i) => unit[i % unit.length]);
+  const ans = unit[len % unit.length];
+  const others = shuffle(rng, COLOR_IDS.filter((c) => !unit.includes(c)));
+  const wrong = [...new Set(unit.filter((c) => c !== ans)), ...others].slice(0, d === 1 ? 2 : 3);
+  return build(
+    rng,
+    {
+      topic: 'patterns',
+      difficulty: d,
+      prompt: { en: 'Which color comes next?', id: 'Warna apa selanjutnya?' },
+      visual: seq.map((c) => ({ sprite, color: c, count: 1 })),
+      explain: { en: 'Look at what repeats, then keep going!', id: 'Lihat yang berulang, lalu lanjutkan!' },
+    },
+    colorChoice(ans),
+    wrong.map(colorChoice),
+  );
+}
 export type QuizTopic = (typeof QUIZ_TOPICS)[number];
 
 export function isQuizTopic(t: unknown): t is QuizTopic {
@@ -545,6 +618,7 @@ export function getQuestions(topic: QuizTopic, difficulty: Difficulty, count: nu
       case 'shapes': return shapes(rng, difficulty);
       case 'animals': return animals(rng, difficulty, used);
       case 'letters': return letters(rng, difficulty);
+      case 'patterns': return patterns(rng, difficulty);
     }
   };
   for (let i = 0; i < count; i++) {

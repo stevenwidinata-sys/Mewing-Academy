@@ -1,7 +1,7 @@
 export type Lang = 'en' | 'id';
 export type Text = Record<Lang, string>;
 
-export type TopicId = 'counting' | 'math' | 'colors' | 'shapes' | 'animals' | 'letters' | 'memory';
+export type TopicId = 'counting' | 'math' | 'colors' | 'shapes' | 'animals' | 'letters' | 'patterns' | 'memory';
 export type Difficulty = 1 | 2 | 3;
 
 export type ColorId = 'red' | 'blue' | 'green' | 'yellow' | 'purple' | 'orange';
@@ -73,4 +73,5 @@ export const TOPICS: { id: TopicId; title: Text; sprite: SpriteId; color: ColorI
   { id: 'shapes', title: { en: 'Shapes', id: 'Bentuk' }, sprite: 'triangle', color: 'blue' },
   { id: 'animals', title: { en: 'Animals', id: 'Hewan' }, sprite: 'fish', color: 'orange' },
   { id: 'letters', title: { en: 'Letters', id: 'Huruf' }, sprite: 'square', color: 'green' },
+  { id: 'patterns', title: { en: 'Patterns', id: 'Pola' }, sprite: 'ball', color: 'green' },
 ];
