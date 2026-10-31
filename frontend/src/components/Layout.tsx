@@ -27,7 +27,7 @@ export function Layout() {
         <NavLink to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
           <Mewy size={56} />
           <span>
-            <span style={{ fontFamily: 'var(--font-pixel)', color: 'var(--accent)', fontSize: '1.1rem', display: 'block', textShadow: '3px 3px 0 var(--shadow)' }}>
+            <span style={{ fontFamily: 'var(--font-pixel)', color: 'var(--accent)', fontSize: '1.1rem', display: 'block', textShadow: 'var(--heading-shadow)' }}>
               {tr('appName')}
             </span>
             <span style={{ fontFamily: 'var(--font-read)', fontSize: '0.85rem', color: 'var(--white)' }}>{tr('tagline')}</span>

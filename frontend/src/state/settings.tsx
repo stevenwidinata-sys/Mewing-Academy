@@ -2,12 +2,13 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import type { Lang } from '../../../shared/types';
 import { t, type StringKey } from '../i18n/strings';
 
-export type Theme = 'arcade';
+export type ThemeId = 'purple' | 'sky' | 'mint' | 'sunset';
 export type FingerMode = 'point' | 'count';
 export type TextSize = 'normal' | 'large' | 'xlarge';
 
 export interface Settings {
   lang: Lang;
+  theme: ThemeId;
   highContrast: boolean;
   reduceMotion: boolean;
   readableFont: boolean;
@@ -18,6 +19,7 @@ export interface Settings {
 
 const DEFAULTS: Settings = {
   lang: 'en',
+  theme: 'purple',
   highContrast: false,
   reduceMotion: false,
   readableFont: false,
@@ -59,6 +61,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(KEY, JSON.stringify(settings));
     const root = document.documentElement;
     root.lang = settings.lang;
+    root.dataset.theme = settings.theme;
     root.dataset.contrast = settings.highContrast ? 'high' : 'normal';
     root.dataset.motion = settings.reduceMotion ? 'reduced' : 'full';
     root.dataset.font = settings.readableFont ? 'readable' : 'pixel';

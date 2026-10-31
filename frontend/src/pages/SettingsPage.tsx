@@ -1,12 +1,19 @@
 import type { ReactNode } from 'react';
 import type { Lang } from '../../../shared/types';
-import { useSettings, type FingerMode, type TextSize } from '../state/settings';
+import { useSettings, type FingerMode, type TextSize, type ThemeId } from '../state/settings';
+
+const THEMES: { id: ThemeId; name: { en: string; id: string }; swatch: string; ink: string }[] = [
+  { id: 'purple', name: { en: 'Purple Night', id: 'Malam Ungu' }, swatch: 'linear-gradient(135deg,#3a2a7a,#883a7e)', ink: '#fdf6e3' },
+  { id: 'sky', name: { en: 'Sky Blue', id: 'Langit Biru' }, swatch: 'linear-gradient(135deg,#7cc8f2,#c9f0ff)', ink: '#14304d' },
+  { id: 'mint', name: { en: 'Mint Green', id: 'Hijau Mint' }, swatch: 'linear-gradient(135deg,#7fdca4,#dcf9e6)', ink: '#13402a' },
+  { id: 'sunset', name: { en: 'Sunset Peach', id: 'Senja Persik' }, swatch: 'linear-gradient(135deg,#ffb38a,#ffe7c2)', ink: '#4a2318' },
+];
 
 function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="pixel-panel" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
       <span style={{ fontFamily: 'var(--font-read)', fontWeight: 700 }}>{label}</span>
-      <div style={{ display: 'flex', gap: '0.5rem' }}>{children}</div>
+      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>{children}</div>
     </div>
   );
 }
@@ -32,6 +39,25 @@ export function SettingsPage() {
               {l === 'en' ? '🇬🇧 English' : '🇮🇩 Indonesia'}
             </button>
           ))}
+        </Row>
+
+        <Row label={tr('settingsTheme')}>
+          {THEMES.map((th) => {
+            const active = settings.theme === th.id;
+            return (
+              <button
+                key={th.id}
+                type="button"
+                className="btn"
+                aria-pressed={active}
+                onClick={() => set('theme', th.id)}
+                style={{ background: th.swatch, color: th.ink, fontSize: '0.6rem', outline: active ? '4px solid var(--accent)' : undefined, outlineOffset: 2 }}
+              >
+                {active ? '✓ ' : ''}
+                {th.name[settings.lang]}
+              </button>
+            );
+          })}
         </Row>
 
         <Row label={tr('settingsFingerMode')}>

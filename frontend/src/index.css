@@ -35,6 +35,49 @@
   --grad-sun: linear-gradient(135deg, #ffcc00 0%, #ff8a1f 100%);
   --panel-glow: linear-gradient(160deg, #352a72 0%, #2a2057 100%);
   --glow-cyan: 0 0 0 rgba(0, 0, 0, 0);
+  --heading-shadow: 3px 3px 0 #0c0820;
+}
+
+/* ---- Background themes. Light themes flip text to dark for readability.
+   (--white is the "foreground text" token used across the app.) ---- */
+:root[data-theme='sky'] {
+  --bg: #cfeeff;
+  --bg-2: #a8dcf7;
+  --panel: #ffffff;
+  --panel-light: #e3f4ff;
+  --panel-glow: linear-gradient(160deg, #ffffff 0%, #e6f5ff 100%);
+  --grad-hero: linear-gradient(120deg, #7cc8f2 0%, #a7e0ff 50%, #c9f0ff 100%);
+  --text: #14304d;
+  --white: #14304d;
+  --accent: #0d5ea8;
+  --shadow: #2a5a80;
+  --heading-shadow: 2px 2px 0 rgba(255, 255, 255, 0.9);
+}
+:root[data-theme='mint'] {
+  --bg: #d6f5e3;
+  --bg-2: #b4ebcc;
+  --panel: #ffffff;
+  --panel-light: #e5f8ec;
+  --panel-glow: linear-gradient(160deg, #ffffff 0%, #e9faf0 100%);
+  --grad-hero: linear-gradient(120deg, #7fdca4 0%, #b5efc8 50%, #dcf9e6 100%);
+  --text: #13402a;
+  --white: #13402a;
+  --accent: #1b7a45;
+  --shadow: #2e6b4a;
+  --heading-shadow: 2px 2px 0 rgba(255, 255, 255, 0.9);
+}
+:root[data-theme='sunset'] {
+  --bg: #ffe3d1;
+  --bg-2: #ffcdb0;
+  --panel: #fff8f2;
+  --panel-light: #ffeadc;
+  --panel-glow: linear-gradient(160deg, #ffffff 0%, #fff0e6 100%);
+  --grad-hero: linear-gradient(120deg, #ffb38a 0%, #ffcf9e 50%, #ffe7c2 100%);
+  --text: #4a2318;
+  --white: #4a2318;
+  --accent: #c2410c;
+  --shadow: #8a3b1f;
+  --heading-shadow: 2px 2px 0 rgba(255, 255, 255, 0.9);
 }
 
 /* ---- Accessibility: easy-to-read font swaps pixel font everywhere ---- */
@@ -58,6 +101,7 @@
   --accent: #ffe600;
   --focus: #ffffff;
   --white: #ffffff;
+  --heading-shadow: 3px 3px 0 #333333;
 }
 
 /* Reduced / calm motion */
@@ -113,7 +157,7 @@ h3 {
   font-family: var(--font-pixel);
   line-height: 1.4;
   color: var(--accent);
-  text-shadow: 3px 3px 0 var(--shadow);
+  text-shadow: var(--heading-shadow);
 }
 :root[data-font='readable'] h1,
 :root[data-font='readable'] h2,
@@ -204,7 +248,7 @@ select {
   font-size: 1rem;
   padding: 0.6em;
   border: 3px solid var(--ink);
-  background: var(--white);
+  background: #ffffff;
   color: var(--ink);
 }
 
