@@ -1,5 +1,6 @@
 import { TOPICS } from '../../../shared/types';
 import { resetProgress, useProgress } from '../state/progress';
+import { badgeFor, nextBadge, topicTitle } from '../state/rewards';
 import { useSettings } from '../state/settings';
 
 export function ProgressPage() {
@@ -27,30 +28,30 @@ export function ProgressPage() {
         <p style={{ fontFamily: 'var(--font-read)', fontSize: '1.1rem' }}>{tr('progressEmpty')}</p>
       ) : (
         <div style={{ display: 'grid', gap: '0.75rem' }}>
-          {TOPICS.filter((t) => progress.byTopic[t.id]).map((t) => {
-            const s = progress.byTopic[t.id]!;
+          {[...TOPICS.map((t) => t.id), 'memory' as const].filter((id) => progress.byTopic[id]).map((id) => {
+            const s = progress.byTopic[id]!;
             const pct = Math.round((s.correct / s.total) * 100);
+            const badge = badgeFor(s.correct);
+            const upcoming = nextBadge(s.correct);
             return (
-              <div key={t.id} className="pixel-panel">
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-read)', fontWeight: 700 }}>
-                  <span>{t.title[settings.lang]}</span>
+              <div key={id} className="card">
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-read)', fontWeight: 700, gap: '0.5rem' }}>
+                  <span>
+                    <span style={{ fontSize: '1.3rem' }} aria-label={badge ? badge.tier : 'no badge'}>{badge?.emoji ?? '⬜'}</span> {topicTitle(id, settings.lang)}
+                  </span>
                   <span>{s.correct}/{s.total} ({pct}%)</span>
                 </div>
                 <div style={{ height: 16, background: 'var(--bg)', border: '2px solid var(--ink)', marginTop: 6 }}>
                   <div style={{ height: '100%', width: `${pct}%`, background: 'var(--green)' }} />
                 </div>
+                {upcoming && (
+                  <div style={{ fontFamily: 'var(--font-read)', fontSize: '0.8rem', marginTop: 4, opacity: 0.85 }}>
+                    {tr('nextBadge')}: {upcoming.emoji} {upcoming.need - s.correct} ✔
+                  </div>
+                )}
               </div>
             );
           })}
-          {/* memory is not in TOPICS list */}
-          {progress.byTopic.memory && (
-            <div className="pixel-panel">
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-read)', fontWeight: 700 }}>
-                <span>🧠 {tr('navMemory')}</span>
-                <span>{progress.byTopic.memory.correct}/{progress.byTopic.memory.total}</span>
-              </div>
-            </div>
-          )}
         </div>
       )}
 

@@ -3,6 +3,7 @@ import type { StringKey } from '../i18n/strings';
 import { useProgress } from '../state/progress';
 import { useSettings } from '../state/settings';
 import { Mewy } from './Mewy';
+import { RewardToast } from './RewardToast';
 
 const NAV: { to: string; key: StringKey }[] = [
   { to: '/', key: 'navHome' },
@@ -69,6 +70,7 @@ export function Layout() {
       <main id="main" tabIndex={-1}>
         <Outlet />
       </main>
+      <RewardToast />
 
       <footer style={{ marginTop: '3rem', textAlign: 'center', fontSize: '0.75rem', fontFamily: 'var(--font-read)', opacity: 0.8 }}>
         <p>{tr('cameraPrivacy')}</p>
