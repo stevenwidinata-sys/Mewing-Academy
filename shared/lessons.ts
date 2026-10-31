@@ -1,3 +1,4 @@
+import { MORE_LESSONS } from './moreTopics';
 import type { ColorId, SpriteGroup, Text, TopicId } from './types';
 
 /**
@@ -272,6 +273,7 @@ export const LESSONS: Record<LessonTopic, LessonModule[]> = {
       ],
     },
   ],
+  ...MORE_LESSONS,
 };
 
 export function getLessons(topic: LessonTopic): LessonModule[] {

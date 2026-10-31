@@ -3,6 +3,7 @@ import { getLessons, type LessonTopic } from '../../../shared/lessons';
 import { isQuizTopic } from '../../../shared/questions';
 import { TOPICS } from '../../../shared/types';
 import { SpriteScene } from '../components/Sprite';
+import { TopicIcon } from '../components/TopicIcon';
 import { SpeakButton } from '../components/SpeakButton';
 import { useSettings } from '../state/settings';
 
@@ -25,7 +26,7 @@ export function LessonDetailPage() {
   return (
     <section>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-        <SpriteScene groups={[{ sprite: meta.sprite, color: meta.color, count: 1 }]} size={48} />
+        <TopicIcon emoji={meta.emoji} size={48} />
         <h1 style={{ margin: 0 }}>{meta.title[settings.lang]}</h1>
       </div>
 

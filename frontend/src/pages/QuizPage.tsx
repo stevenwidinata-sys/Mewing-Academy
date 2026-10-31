@@ -6,7 +6,7 @@ import { AdaptiveTip } from '../components/AdaptiveTip';
 import { LevelPicker } from '../components/LevelPicker';
 import { MewyBuddy } from '../components/MewyBuddy';
 import { QuizRunner } from '../components/QuizRunner';
-import { SpriteScene } from '../components/Sprite';
+import { TopicIcon } from '../components/TopicIcon';
 import { fetchQuestions } from '../lib/api';
 import { useSettings } from '../state/settings';
 
@@ -42,7 +42,7 @@ export function QuizPage() {
       <section style={{ textAlign: 'center' }}>
         <div className="hero" style={{ marginBottom: '1.5rem' }}>
           <div className="pop" style={{ display: 'inline-block' }}>
-            <SpriteScene groups={[{ sprite: meta.sprite, color: meta.color, count: 1 }]} size={64} />
+            <TopicIcon emoji={meta.emoji} size={64} />
           </div>
           <h1 style={{ fontSize: '1.3rem' }}>{meta.title[settings.lang]}</h1>
           <p style={{ fontFamily: 'var(--font-read)', fontSize: '1.05rem', margin: 0 }}>
@@ -97,7 +97,7 @@ function TopicChooser({ onPick }: { onPick: (t: QuizTopic) => void }) {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '1rem' }}>
         {TOPICS.map((topic) => (
           <button key={topic.id} type="button" className="btn" onClick={() => onPick(topic.id as QuizTopic)} style={{ padding: '1.5rem 1rem', fontSize: '0.8rem' }}>
-            <SpriteScene groups={[{ sprite: topic.sprite, color: topic.color, count: 1 }]} size={40} />
+            <TopicIcon emoji={topic.emoji} size={40} />
             <div style={{ marginTop: 8 }}>{topic.title[settings.lang]}</div>
           </button>
         ))}

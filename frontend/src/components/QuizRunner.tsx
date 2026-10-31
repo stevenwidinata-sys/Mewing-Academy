@@ -63,6 +63,7 @@ export function QuizRunner({ questions, onFinish, renderDone }: Props) {
       <h2 style={{ textAlign: 'center' }}>
         {current.prompt[lang]} <SpeakButton text={questionToSpeech(current, lang)} small />
       </h2>
+      {current.emoji && <div className="pixel-panel big-emoji">{current.emoji}</div>}
       {current.visual && (
         <div className="pixel-panel" style={{ margin: '1rem auto', maxWidth: 560 }}>
           <SpriteScene groups={current.visual} />

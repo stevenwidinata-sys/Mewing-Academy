@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { TOPICS } from '../../../shared/types';
 import { Mewy } from '../components/Mewy';
-import { SpriteScene } from '../components/Sprite';
+import { TopicIcon } from '../components/TopicIcon';
 import { useSettings } from '../state/settings';
 
 const GAMES: { to: string; emoji: string; key: 'navQuiz' | 'navMemory' | 'navTutor' | 'navDaily' | 'navCloset' }[] = [
@@ -45,7 +45,7 @@ export function HomePage() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '1rem' }}>
         {TOPICS.map((topic) => (
           <Link key={topic.id} to={`/quiz?topic=${topic.id}`} className="btn btn--ghost" style={{ padding: '1rem', textAlign: 'center' }}>
-            <SpriteScene groups={[{ sprite: topic.sprite, color: topic.color, count: 1 }]} size={36} />
+            <TopicIcon emoji={topic.emoji} size={36} />
             <div style={{ marginTop: 8, fontSize: '0.7rem' }}>{topic.title[settings.lang]}</div>
           </Link>
         ))}

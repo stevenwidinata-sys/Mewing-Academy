@@ -1,7 +1,10 @@
 export type Lang = 'en' | 'id';
 export type Text = Record<Lang, string>;
 
-export type TopicId = 'counting' | 'math' | 'colors' | 'shapes' | 'animals' | 'letters' | 'patterns' | 'memory';
+export type TopicId =
+  | 'counting' | 'math' | 'colors' | 'shapes' | 'animals' | 'letters' | 'patterns'
+  | 'time' | 'food' | 'body' | 'weather' | 'transport' | 'opposites' | 'feelings' | 'space' | 'skipcount'
+  | 'memory';
 export type Difficulty = 1 | 2 | 3;
 
 export type ColorId = 'red' | 'blue' | 'green' | 'yellow' | 'purple' | 'orange';
@@ -29,6 +32,8 @@ export interface Question {
   answer: number;
   visual?: SpriteGroup[];
   explain?: Text;
+  /** Big emoji picture shown with the question (e.g. a clock face). */
+  emoji?: string;
 }
 
 export interface MemoryRound {
@@ -66,12 +71,30 @@ export const SPRITE_NAMES: Record<SpriteId, { one: Text; many: Text }> = {
   triangle: { one: { en: 'triangle', id: 'segitiga' }, many: { en: 'triangles', id: 'segitiga' } },
 };
 
-export const TOPICS: { id: TopicId; title: Text; sprite: SpriteId; color: ColorId }[] = [
-  { id: 'counting', title: { en: 'Counting', id: 'Berhitung' }, sprite: 'apple', color: 'red' },
-  { id: 'math', title: { en: 'Plus & Minus', id: 'Tambah & Kurang' }, sprite: 'star', color: 'yellow' },
-  { id: 'colors', title: { en: 'Colors', id: 'Warna' }, sprite: 'heart', color: 'purple' },
-  { id: 'shapes', title: { en: 'Shapes', id: 'Bentuk' }, sprite: 'triangle', color: 'blue' },
-  { id: 'animals', title: { en: 'Animals', id: 'Hewan' }, sprite: 'fish', color: 'orange' },
-  { id: 'letters', title: { en: 'Letters', id: 'Huruf' }, sprite: 'square', color: 'green' },
-  { id: 'patterns', title: { en: 'Patterns', id: 'Pola' }, sprite: 'ball', color: 'green' },
+export interface TopicMeta {
+  id: Exclude<TopicId, 'memory'>;
+  title: Text;
+  emoji: string;
+  blurb: Text;
+}
+
+const tx = (en: string, id: string): Text => ({ en, id });
+
+export const TOPICS: TopicMeta[] = [
+  { id: 'counting', emoji: '🔢', title: tx('Counting', 'Berhitung'), blurb: tx('Count, compare, and put numbers in order.', 'Berhitung, membandingkan, dan mengurutkan angka.') },
+  { id: 'math', emoji: '➕', title: tx('Plus & Minus', 'Tambah & Kurang'), blurb: tx('Add, take away, and solve story problems.', 'Menambah, mengurang, dan soal cerita.') },
+  { id: 'skipcount', emoji: '🦘', title: tx('Skip Counting', 'Hitung Loncat'), blurb: tx('Count by 2s, 5s and 10s.', 'Berhitung loncat 2, 5, dan 10.') },
+  { id: 'time', emoji: '⏰', title: tx('Time & Clocks', 'Waktu & Jam'), blurb: tx("Read o'clock, half past, and days of the week.", 'Membaca jam, setengah, dan nama hari.') },
+  { id: 'patterns', emoji: '🧩', title: tx('Patterns', 'Pola'), blurb: tx('Spot what repeats: colors, shapes and numbers.', 'Temukan yang berulang: warna, bentuk, dan angka.') },
+  { id: 'colors', emoji: '🎨', title: tx('Colors', 'Warna'), blurb: tx('Name colors, spot them, and mix them.', 'Mengenal, menemukan, dan mencampur warna.') },
+  { id: 'shapes', emoji: '🔺', title: tx('Shapes', 'Bentuk'), blurb: tx('Circles, squares, triangles and corners.', 'Lingkaran, persegi, segitiga, dan sudut.') },
+  { id: 'letters', emoji: '🔤', title: tx('Letters', 'Huruf'), blurb: tx('The alphabet, first letters, and vowels.', 'Alfabet, huruf awal, dan huruf vokal.') },
+  { id: 'opposites', emoji: '↔️', title: tx('Opposites', 'Lawan Kata'), blurb: tx('Big and small, hot and cold, and more.', 'Besar dan kecil, panas dan dingin, dan lainnya.') },
+  { id: 'animals', emoji: '🐾', title: tx('Animals', 'Hewan'), blurb: tx('Sounds, homes, and fun facts.', 'Suara, tempat tinggal, dan fakta seru.') },
+  { id: 'food', emoji: '🍎', title: tx('Fruits & Veggies', 'Buah & Sayur'), blurb: tx('Name them, sort them, and know their colors.', 'Kenali, kelompokkan, dan tahu warnanya.') },
+  { id: 'body', emoji: '🖐️', title: tx('My Body', 'Tubuhku'), blurb: tx('Body parts and the five senses.', 'Bagian tubuh dan lima indra.') },
+  { id: 'feelings', emoji: '😊', title: tx('Feelings', 'Perasaan'), blurb: tx('Name feelings and learn to be kind.', 'Kenali perasaan dan belajar baik hati.') },
+  { id: 'weather', emoji: '🌦️', title: tx('Weather', 'Cuaca'), blurb: tx('Sun, rain, storms, and seasons.', 'Cerah, hujan, badai, dan musim.') },
+  { id: 'transport', emoji: '🚗', title: tx('Vehicles', 'Kendaraan'), blurb: tx('Land, water, sky, and helper vehicles.', 'Darat, air, udara, dan kendaraan penolong.') },
+  { id: 'space', emoji: '🪐', title: tx('Space', 'Luar Angkasa'), blurb: tx('The Sun, the Moon, and our 8 planets.', 'Matahari, Bulan, dan 8 planet kita.') },
 ];

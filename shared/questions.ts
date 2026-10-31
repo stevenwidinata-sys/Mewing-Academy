@@ -8,6 +8,7 @@ import {
   type SpriteId,
   type Text,
 } from './types';
+import { makeMoreQuestion, MORE_TOPIC_IDS } from './moreTopics';
 
 export type Rng = () => number;
 
@@ -526,7 +527,7 @@ function letters(rng: Rng, d: Difficulty): Question {
   );
 }
 
-export const QUIZ_TOPICS = ['counting', 'math', 'colors', 'shapes', 'animals', 'letters', 'patterns'] as const;
+export const QUIZ_TOPICS = ['counting', 'math', 'colors', 'shapes', 'animals', 'letters', 'patterns', ...MORE_TOPIC_IDS] as const;
 
 /**
  * Patterns. Level 1: AB color patterns. Level 2: ABC / AAB colors or repeating
@@ -619,13 +620,16 @@ export function getQuestions(topic: QuizTopic, difficulty: Difficulty, count: nu
       case 'animals': return animals(rng, difficulty, used);
       case 'letters': return letters(rng, difficulty);
       case 'patterns': return patterns(rng, difficulty);
+      default: return makeMoreQuestion(topic, rng, difficulty);
     }
   };
+  // Same prompt with a different picture (e.g. clocks) counts as a new question.
+  const key = (q: Question) => q.prompt.en + (q.emoji ?? '');
   for (let i = 0; i < count; i++) {
     let q = gen();
-    // Try a few times to avoid showing the same prompt twice in one round.
-    for (let tries = 0; tries < 8 && seenPrompts.has(q.prompt.en); tries++) q = gen();
-    seenPrompts.add(q.prompt.en);
+    // Try a few times to avoid showing the same question twice in one round.
+    for (let tries = 0; tries < 8 && seenPrompts.has(key(q)); tries++) q = gen();
+    seenPrompts.add(key(q));
     out.push(q);
   }
   return out;
