@@ -75,6 +75,9 @@ export function Layout() {
 
       <footer style={{ marginTop: '3rem', textAlign: 'center', fontSize: '0.75rem', fontFamily: 'var(--font-read)', opacity: 0.8 }}>
         <p>{tr('cameraPrivacy')}</p>
+        <p>
+          <NavLink to="/parents">👪 {tr('navParents')}</NavLink>
+        </p>
         <p>Mewing Academy · 2026</p>
       </footer>
     </div>

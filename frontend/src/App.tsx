@@ -3,6 +3,7 @@ import { Layout } from './components/Layout';
 import { AboutPage } from './pages/AboutPage';
 import { ClosetPage } from './pages/ClosetPage';
 import { DailyPage } from './pages/DailyPage';
+import { ParentsPage } from './pages/ParentsPage';
 import { HomePage } from './pages/HomePage';
 import { HowAiPage } from './pages/HowAiPage';
 import { LessonDetailPage } from './pages/LessonDetailPage';
@@ -27,6 +28,7 @@ const router = createHashRouter([
       { path: 'tutor', element: <TutorPage /> },
       { path: 'closet', element: <ClosetPage /> },
       { path: 'daily', element: <DailyPage /> },
+      { path: 'parents', element: <ParentsPage /> },
       { path: 'progress', element: <ProgressPage /> },
       { path: 'how-ai', element: <HowAiPage /> },
       { path: 'about', element: <AboutPage /> },

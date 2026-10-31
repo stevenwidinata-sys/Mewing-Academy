@@ -16,3 +16,7 @@ continue from the first item without a commit.
 | 8 | Daily Challenge | 5 mixed questions per day, +2 bonus stars once per day |
 | 9 | New topic: Patterns | Color, shape-order and number patterns, 3 levels + lessons |
 | 10 | Parent/Teacher Corner | Grown-up check, accuracy per topic, weakest topic tip |
+
+**Status: all 10 done** (plus a fix so each answer is counted only once).
+Open the Closet from the menu, the Daily Challenge from Home, and the
+Parent/Teacher Corner from the footer link.
