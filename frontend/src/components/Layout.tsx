@@ -1,9 +1,14 @@
+import { useCallback, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import type { StringKey } from '../i18n/strings';
+import { sfx } from '../lib/sound';
 import { useProgress } from '../state/progress';
 import { useSettings } from '../state/settings';
 import { Mewy } from './Mewy';
 import { RewardToast } from './RewardToast';
+import { TitleScreen } from './TitleScreen';
+
+const STARTED_KEY = 'mewing.started';
 
 const NAV: { to: string; key: StringKey }[] = [
   { to: '/', key: 'navHome' },
@@ -22,9 +27,17 @@ const NAV: { to: string; key: StringKey }[] = [
 export function Layout() {
   const { tr, settings, set } = useSettings();
   const { stars } = useProgress();
+  const [started, setStarted] = useState(() => sessionStorage.getItem(STARTED_KEY) === '1');
+  const start = useCallback(() => {
+    sessionStorage.setItem(STARTED_KEY, '1');
+    sfx.star(settings.sound);
+    setStarted(true);
+  }, [settings.sound]);
+
+  if (!started) return <TitleScreen onStart={start} />;
 
   return (
-    <div style={{ maxWidth: 1100, margin: '0 auto', padding: '1rem' }}>
+    <div className="app-shell" style={{ maxWidth: 1100, margin: '0 auto', padding: '1rem' }}>
       <a href="#main" className="btn skip-link">{tr('skipToContent')}</a>
 
       <header style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '1rem' }}>

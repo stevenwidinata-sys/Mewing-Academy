@@ -451,3 +451,126 @@ main > section {
   margin: 1rem auto;
   max-width: 240px;
 }
+
+/* ============ Title screen (PRESS START) ============ */
+.title-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(ellipse at 50% 35%, #4a2f8f 0%, #1d1442 55%, #0c0820 100%);
+}
+.title-stage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 1rem;
+}
+.title-mascot {
+  animation: floaty 3s ease-in-out infinite;
+  filter: drop-shadow(0 8px 0 rgba(0, 0, 0, 0.35));
+}
+/* Extruded 3D pixel letters */
+.title-logo {
+  margin: 0;
+  transform: perspective(500px) rotateX(16deg);
+  text-shadow: none;
+}
+.title-logo span {
+  display: block;
+  font-size: clamp(1.8rem, 7vw, 4rem);
+  color: var(--yellow);
+  text-shadow: 1px 1px 0 #e0a800, 2px 2px 0 #d29a00, 3px 3px 0 #c48c00, 4px 4px 0 #a87600, 5px 5px 0 #8a6000, 7px 7px 0 var(--shadow), 10px 14px 18px rgba(0, 0, 0, 0.5);
+  animation: titleBob 2.4s ease-in-out infinite;
+}
+.title-logo span:last-child {
+  color: var(--cyan);
+  text-shadow: 1px 1px 0 #1fbab4, 2px 2px 0 #1aa39e, 3px 3px 0 #168c88, 4px 4px 0 #127572, 5px 5px 0 #0e5e5c, 7px 7px 0 var(--shadow), 10px 14px 18px rgba(0, 0, 0, 0.5);
+  animation-delay: 0.3s;
+}
+@keyframes titleBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.title-tag {
+  font-family: var(--font-read);
+  font-size: 1.1rem;
+  margin: 0;
+}
+.title-start {
+  font-size: 1rem;
+  padding: 1em 1.8em;
+  animation: blink 1.2s step-end infinite;
+}
+.title-start:hover,
+.title-start:focus-visible {
+  animation: none;
+}
+.title-hint {
+  font-family: var(--font-read);
+  font-size: 0.8rem;
+  opacity: 0.75;
+  margin: 0;
+}
+/* Retro 3D grid floor */
+.title-grid {
+  position: absolute;
+  left: -50%;
+  right: -50%;
+  bottom: -5%;
+  height: 50%;
+  background-image: linear-gradient(rgba(39, 224, 216, 0.35) 2px, transparent 2px), linear-gradient(90deg, rgba(39, 224, 216, 0.35) 2px, transparent 2px);
+  background-size: 56px 56px;
+  transform: perspective(320px) rotateX(62deg);
+  transform-origin: top;
+  mask-image: linear-gradient(to bottom, transparent, #000 45%);
+  animation: gridMove 1.6s linear infinite;
+}
+@keyframes gridMove {
+  to { background-position: 0 56px; }
+}
+:root[data-contrast='high'] .title-screen { background: #000; }
+:root[data-contrast='high'] .title-grid { display: none; }
+
+/* ============ Page title banner + framed content ============ */
+/* The page title gets its own tilted 3D banner block... */
+main > section > h1:first-child {
+  position: relative;
+  margin: 0 0 1.5rem;
+  padding: 0.9rem 1.2rem 1.1rem;
+  background: var(--grad-hero);
+  border: 4px solid var(--ink);
+  box-shadow: 0 6px 0 #1a1238, 6px 12px 0 var(--shadow);
+  transform: perspective(700px) rotateX(5deg);
+  transform-origin: bottom;
+}
+main > section > h1:first-child::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 6px;
+  background: var(--grad-sun);
+}
+/* ...and the page content sits inside its own arcade "screen". */
+#main {
+  position: relative;
+  background: rgba(14, 9, 36, 0.62);
+  border: 4px solid var(--ink);
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.06), 8px 8px 0 var(--shadow);
+  padding: 1.5rem;
+  backdrop-filter: blur(3px);
+}
+:root[data-contrast='high'] #main {
+  background: #000;
+  backdrop-filter: none;
+}
+:root[data-contrast='high'] main > section > h1:first-child {
+  background: #000;
+  transform: none;
+}
