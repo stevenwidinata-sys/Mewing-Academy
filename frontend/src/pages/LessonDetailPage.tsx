@@ -3,6 +3,7 @@ import { getLessons, type LessonTopic } from '../../../shared/lessons';
 import { isQuizTopic } from '../../../shared/questions';
 import { TOPICS } from '../../../shared/types';
 import { SpriteScene } from '../components/Sprite';
+import { SpeakButton } from '../components/SpeakButton';
 import { useSettings } from '../state/settings';
 
 export function LessonDetailPage() {
@@ -41,7 +42,9 @@ export function LessonDetailPage() {
             </p>
             {m.steps.map((step, si) => (
               <div key={si} style={{ marginBottom: '0.75rem' }}>
-                <p style={{ fontFamily: 'var(--font-read)', margin: '0 0 0.5rem' }}>{step.text[settings.lang]}</p>
+                <p style={{ fontFamily: 'var(--font-read)', margin: '0 0 0.5rem' }}>
+                  {step.text[settings.lang]} <SpeakButton text={step.text[settings.lang]} small />
+                </p>
                 {step.visual && (
                   <div className="pixel-panel" style={{ display: 'inline-block', padding: '0.75rem' }}>
                     <SpriteScene groups={step.visual} size={44} />

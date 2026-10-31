@@ -4,8 +4,11 @@ import { CameraStage } from '../components/CameraStage';
 import { ChoiceGrid } from '../components/ChoiceGrid';
 import { Confetti } from '../components/Confetti';
 import { LevelPicker } from '../components/LevelPicker';
+import { MewyBuddy } from '../components/MewyBuddy';
+import { SpeakButton } from '../components/SpeakButton';
 import { SpriteScene } from '../components/Sprite';
 import { fetchMemoryRound } from '../lib/api';
+import { questionToSpeech } from '../lib/speak';
 import { sfx } from '../lib/sound';
 import { recordAnswer } from '../state/progress';
 import { useSettings } from '../state/settings';
@@ -119,7 +122,10 @@ export function MemoryPage() {
   return (
     <section>
       <h2 style={{ textAlign: 'center' }}>{tr('memoryRemember')}</h2>
-      <h3 style={{ textAlign: 'center', color: 'var(--white)' }}>{q.prompt[settings.lang]}</h3>
+      <MewyBuddy mood={picked == null ? 'think' : picked === q.answer ? 'happy' : 'sad'} />
+      <h3 style={{ textAlign: 'center', color: 'var(--white)' }}>
+        {q.prompt[settings.lang]} <SpeakButton text={questionToSpeech(q, settings.lang)} small />
+      </h3>
       <div style={{ display: 'grid', gridTemplateColumns: 'minmax(260px, 360px) 1fr', gap: '1.5rem', alignItems: 'start' }}>
         <CameraStage choiceCount={q.choices.length} onConfirm={pick} onHover={(i, p) => setHover({ index: i, progress: p })} paused={revealed} />
         <div>

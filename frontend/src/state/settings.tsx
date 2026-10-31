@@ -16,6 +16,7 @@ export interface Settings {
   textSize: TextSize;
   sound: boolean;
   fingerMode: FingerMode;
+  autoRead: boolean;
   mewyFur: FurId;
   mewyItem: ItemId | null;
 }
@@ -29,6 +30,7 @@ const DEFAULTS: Settings = {
   textSize: 'normal',
   sound: true,
   fingerMode: 'point',
+  autoRead: false,
   mewyFur: 'yellow',
   mewyItem: null,
 };

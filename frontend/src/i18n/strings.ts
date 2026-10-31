@@ -90,6 +90,13 @@ export const STRINGS = {
   openCloset: { en: 'Open closet', id: 'Buka lemari' },
   nextBadge: { en: 'Next badge', id: 'Lencana berikutnya' },
 
+  // Mewy reactions + read aloud
+  mewyThink: { en: 'Take your time, you can do it!', id: 'Pelan-pelan, kamu pasti bisa!' },
+  mewyHappy: { en: 'Yay! You got it!', id: 'Hore! Kamu benar!' },
+  mewySad: { en: 'Nice try! Let’s keep learning.', id: 'Sudah bagus! Ayo terus belajar.' },
+  readAloud: { en: 'Read aloud', id: 'Bacakan' },
+  settingsAutoRead: { en: 'Read questions aloud automatically', id: 'Bacakan soal otomatis' },
+
   // Settings
   settingsLang: { en: 'Language', id: 'Bahasa' },
   settingsTheme: { en: 'Look', id: 'Tampilan' },

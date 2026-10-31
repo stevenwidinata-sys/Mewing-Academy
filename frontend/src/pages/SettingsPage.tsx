@@ -88,6 +88,9 @@ export function SettingsPage() {
         <Row label={tr('settingsSound')}>
           <Toggle on={settings.sound} onToggle={() => set('sound', !settings.sound)} labelOn={tr('on')} labelOff={tr('off')} />
         </Row>
+        <Row label={`🔊 ${tr('settingsAutoRead')}`}>
+          <Toggle on={settings.autoRead} onToggle={() => set('autoRead', !settings.autoRead)} labelOn={tr('on')} labelOff={tr('off')} />
+        </Row>
       </div>
     </section>
   );
