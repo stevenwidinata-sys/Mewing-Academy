@@ -1,14 +1,16 @@
 import { NavLink, Outlet } from 'react-router-dom';
+import type { StringKey } from '../i18n/strings';
 import { useProgress } from '../state/progress';
 import { useSettings } from '../state/settings';
 import { Mewy } from './Mewy';
 
-const NAV: { to: string; key: 'navHome' | 'navLessons' | 'navQuiz' | 'navMemory' | 'navTutor' | 'navProgress' | 'navHowAi' | 'navAbout' | 'navSettings' }[] = [
+const NAV: { to: string; key: StringKey }[] = [
   { to: '/', key: 'navHome' },
   { to: '/lessons', key: 'navLessons' },
   { to: '/quiz', key: 'navQuiz' },
   { to: '/memory', key: 'navMemory' },
   { to: '/tutor', key: 'navTutor' },
+  { to: '/closet', key: 'navCloset' },
   { to: '/progress', key: 'navProgress' },
   { to: '/how-ai', key: 'navHowAi' },
   { to: '/about', key: 'navAbout' },

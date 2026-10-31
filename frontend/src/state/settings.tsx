@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { Lang } from '../../../shared/types';
 import { t, type StringKey } from '../i18n/strings';
+import type { FurId, ItemId } from './rewards';
 
 export type ThemeId = 'purple' | 'sky' | 'mint' | 'sunset';
 export type FingerMode = 'point' | 'count';
@@ -15,6 +16,8 @@ export interface Settings {
   textSize: TextSize;
   sound: boolean;
   fingerMode: FingerMode;
+  mewyFur: FurId;
+  mewyItem: ItemId | null;
 }
 
 const DEFAULTS: Settings = {
@@ -26,6 +29,8 @@ const DEFAULTS: Settings = {
   textSize: 'normal',
   sound: true,
   fingerMode: 'point',
+  mewyFur: 'yellow',
+  mewyItem: null,
 };
 
 const KEY = 'mewing.settings.v1';

@@ -81,6 +81,15 @@ export const STRINGS = {
   progressReset: { en: 'Clear my stars', id: 'Hapus bintangku' },
   progressStreak: { en: 'Day streak', id: 'Hari beruntun' },
 
+  // Closet / rewards
+  navCloset: { en: "Mewy's Closet", id: 'Lemari Mewy' },
+  closetItems: { en: 'Outfits', id: 'Pakaian' },
+  closetFur: { en: 'Fur colors', id: 'Warna bulu' },
+  closetNone: { en: 'No outfit', id: 'Tanpa baju' },
+  newUnlock: { en: 'New unlock!', id: 'Hadiah baru!' },
+  openCloset: { en: 'Open closet', id: 'Buka lemari' },
+  nextBadge: { en: 'Next badge', id: 'Lencana berikutnya' },
+
   // Settings
   settingsLang: { en: 'Language', id: 'Bahasa' },
   settingsTheme: { en: 'Look', id: 'Tampilan' },

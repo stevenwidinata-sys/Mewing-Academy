@@ -1,6 +1,7 @@
 import { createHashRouter, RouterProvider } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { AboutPage } from './pages/AboutPage';
+import { ClosetPage } from './pages/ClosetPage';
 import { HomePage } from './pages/HomePage';
 import { HowAiPage } from './pages/HowAiPage';
 import { LessonDetailPage } from './pages/LessonDetailPage';
@@ -23,6 +24,7 @@ const router = createHashRouter([
       { path: 'quiz', element: <QuizPage /> },
       { path: 'memory', element: <MemoryPage /> },
       { path: 'tutor', element: <TutorPage /> },
+      { path: 'closet', element: <ClosetPage /> },
       { path: 'progress', element: <ProgressPage /> },
       { path: 'how-ai', element: <HowAiPage /> },
       { path: 'about', element: <AboutPage /> },
