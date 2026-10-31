@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Difficulty, MemoryRound } from '../../../shared/types';
+import { AdaptiveTip } from '../components/AdaptiveTip';
 import { CameraStage } from '../components/CameraStage';
 import { ChoiceGrid } from '../components/ChoiceGrid';
 import { Confetti } from '../components/Confetti';
@@ -108,6 +109,15 @@ export function MemoryPage() {
       <section style={{ textAlign: 'center' }}>
         <Confetti fire={correct >= 1 ? correct : 0} />
         <h1>⭐ {correct}/{round.questions.length}</h1>
+        <AdaptiveTip
+          level={level}
+          correct={correct}
+          total={round.questions.length}
+          onGo={(d) => {
+            setLevel(d);
+            setPhase('ready');
+          }}
+        />
         <LevelPicker value={level} onChange={setLevel} />
         <div style={{ marginTop: '1rem', display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
           <button type="button" className="btn" onClick={begin}>{tr('playAgain')}</button>

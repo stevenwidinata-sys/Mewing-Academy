@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { isQuizTopic, type QuizTopic } from '../../../shared/questions';
 import { TOPICS, type Difficulty, type Question } from '../../../shared/types';
+import { AdaptiveTip } from '../components/AdaptiveTip';
 import { LevelPicker } from '../components/LevelPicker';
 import { MewyBuddy } from '../components/MewyBuddy';
 import { QuizRunner } from '../components/QuizRunner';
@@ -67,6 +68,15 @@ export function QuizPage() {
         <>
           <MewyBuddy mood={correct >= total / 2 ? 'happy' : 'sad'} />
           <h1>⭐ {correct}/{total}</h1>
+          <AdaptiveTip
+            level={level}
+            correct={correct}
+            total={total}
+            onGo={(d) => {
+              setLevel(d);
+              start(topic, d);
+            }}
+          />
           <LevelPicker value={level} onChange={changeLevel} />
           <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', marginTop: '1rem', flexWrap: 'wrap' }}>
             <button type="button" className="btn" onClick={() => start(topic, level)}>{tr('playAgain')}</button>

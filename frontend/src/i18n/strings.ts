@@ -97,6 +97,17 @@ export const STRINGS = {
   readAloud: { en: 'Read aloud', id: 'Bacakan' },
   settingsAutoRead: { en: 'Read questions aloud automatically', id: 'Bacakan soal otomatis' },
 
+  // Adaptive difficulty, daily challenge, parents
+  adaptUp: { en: 'Wow! You are ready for a harder level!', id: 'Wah! Kamu siap untuk tingkat lebih sulit!' },
+  adaptDown: { en: 'Let’s warm up with an easier level first.', id: 'Ayo pemanasan dulu dengan tingkat lebih mudah.' },
+  adaptStay: { en: 'Great practice! This level is just right for you.', id: 'Latihan hebat! Tingkat ini pas untukmu.' },
+  adaptGo: { en: 'Try', id: 'Coba' },
+  navDaily: { en: 'Daily Challenge', id: 'Tantangan Harian' },
+  dailyText: { en: '5 mixed questions every day. Finish to earn +2 bonus stars!', id: '5 soal campuran setiap hari. Selesaikan untuk +2 bintang bonus!' },
+  dailyDone: { en: 'Done for today! Come back tomorrow for new questions.', id: 'Selesai untuk hari ini! Kembali besok untuk soal baru.' },
+  dailyBonus: { en: '+2 bonus stars!', id: '+2 bintang bonus!' },
+  navParents: { en: 'Parents & Teachers', id: 'Orang Tua & Guru' },
+
   // Settings
   settingsLang: { en: 'Language', id: 'Bahasa' },
   settingsTheme: { en: 'Look', id: 'Tampilan' },
