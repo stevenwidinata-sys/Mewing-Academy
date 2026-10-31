@@ -4,10 +4,12 @@ import { Mewy } from '../components/Mewy';
 import { SpriteScene } from '../components/Sprite';
 import { useSettings } from '../state/settings';
 
-const GAMES: { to: string; emoji: string; key: 'navQuiz' | 'navMemory' | 'navTutor' }[] = [
+const GAMES: { to: string; emoji: string; key: 'navQuiz' | 'navMemory' | 'navTutor' | 'navDaily' | 'navCloset' }[] = [
+  { to: '/daily', emoji: '📅', key: 'navDaily' },
   { to: '/quiz', emoji: '✋', key: 'navQuiz' },
   { to: '/memory', emoji: '🧠', key: 'navMemory' },
   { to: '/tutor', emoji: '💬', key: 'navTutor' },
+  { to: '/closet', emoji: '👕', key: 'navCloset' },
 ];
 
 export function HomePage() {

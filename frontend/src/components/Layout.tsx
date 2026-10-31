@@ -7,6 +7,7 @@ import { RewardToast } from './RewardToast';
 
 const NAV: { to: string; key: StringKey }[] = [
   { to: '/', key: 'navHome' },
+  { to: '/daily', key: 'navDaily' },
   { to: '/lessons', key: 'navLessons' },
   { to: '/quiz', key: 'navQuiz' },
   { to: '/memory', key: 'navMemory' },
