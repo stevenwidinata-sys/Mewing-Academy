@@ -983,3 +983,105 @@ main > section > h1:first-child::after {
 @media (max-width: 600px) {
   .watcher { display: none; }
 }
+
+/* ============ Synthwave title screen ============ */
+.title-screen {
+  --title-bg: #140a3a; /* pill behind the tagline and hint */
+  background: linear-gradient(to bottom, #0b0630 0%, #1c0b4a 35%, #4a1670 62%, #8a2a7e 74%, #1c0b4a 75%, #0b0630 100%);
+}
+.title-scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+.title-stage {
+  z-index: 2;
+}
+/* Logo: yellow + cyan faces with a pink/purple 3D extrusion, tilts with the mouse */
+.title-logo {
+  transition: transform 0.15s ease-out;
+}
+.title-logo span {
+  color: #ffd84a;
+  text-shadow: 1px 1px 0 #ff9ed0, 2px 2px 0 #ff7dbf, 3px 3px 0 #ff5ca8, 4px 4px 0 #e0439a, 5px 5px 0 #b8338a, 6px 6px 0 #8a2a7e, 9px 9px 0 #0b0630, 0 0 26px rgba(255, 92, 168, 0.55);
+}
+.title-logo span:last-child {
+  color: #4ff3ec;
+  text-shadow: 1px 1px 0 #b98cff, 2px 2px 0 #a070ff, 3px 3px 0 #8a5cff, 4px 4px 0 #7247e0, 5px 5px 0 #5a35b8, 6px 6px 0 #3a2a7a, 9px 9px 0 #0b0630, 0 0 26px rgba(39, 224, 216, 0.55);
+}
+.title-tag,
+.title-hint {
+  background: var(--title-bg);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  padding: 0.3rem 0.9rem;
+}
+.title-mascot {
+  transition: transform 0.3s ease-out;
+}
+.title-mascot--lean {
+  transform: translateY(14px) rotate(-6deg) scale(1.06);
+}
+
+/* 3D arcade push button */
+.arcade-btn {
+  position: relative;
+  padding: 0;
+  border: none;
+  background: #8a2a7e;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 0 0 4px #0b0630, 0 10px 0 4px #0b0630, 0 0 30px rgba(255, 92, 168, 0.5);
+  transition: box-shadow 0.15s;
+}
+.arcade-btn__top {
+  display: block;
+  padding: 1em 2em;
+  border-radius: 12px;
+  font-family: var(--font-pixel);
+  font-size: 1rem;
+  letter-spacing: 1px;
+  color: #1a1430;
+  background: linear-gradient(to bottom, #fff27a, #ffcc00 55%, #f0a800);
+  border: 3px solid #1a1430;
+  transform: translateY(-10px);
+  transition: transform 0.08s ease-out;
+  animation: blink 1.2s step-end infinite;
+}
+.arcade-btn:hover,
+.arcade-btn:focus-visible {
+  box-shadow: 0 0 0 4px #0b0630, 0 10px 0 4px #0b0630, 0 0 46px 6px rgba(255, 92, 168, 0.85), 0 0 80px rgba(39, 224, 216, 0.5);
+}
+.arcade-btn:hover .arcade-btn__top,
+.arcade-btn:focus-visible .arcade-btn__top {
+  animation: none;
+  transform: translateY(-13px);
+}
+.arcade-btn:active .arcade-btn__top {
+  transform: translateY(-2px);
+}
+
+/* Warp: content zooms away, then a bright flash */
+.title-screen--warp .title-stage {
+  animation: warpAway 1s ease-in forwards;
+}
+@keyframes warpAway {
+  to { transform: scale(2.4); opacity: 0; filter: blur(4px); }
+}
+.warp-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(circle, #fff 0%, #ffe8f6 30%, transparent 70%);
+  opacity: 0;
+  animation: flash 1s ease-in forwards;
+}
+@keyframes flash {
+  0%, 55% { opacity: 0; }
+  100% { opacity: 1; }
+}
+:root[data-contrast='high'] .title-screen {
+  background: #000;
+}

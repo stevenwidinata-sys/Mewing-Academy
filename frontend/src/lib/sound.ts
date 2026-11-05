@@ -39,4 +39,9 @@ export const sfx = {
     if (!enabled) return;
     [330, 520, 300, 440].forEach((f, i) => tone(f, 70, 'triangle', 0.14, i * 0.05));
   },
+  /** Rising "whoosh" for the warp-speed title transition. */
+  warp(enabled: boolean) {
+    if (!enabled) return;
+    for (let i = 0; i < 10; i++) tone(200 + i * 90, 90, 'sawtooth', 0.05, i * 0.08);
+  },
 };
