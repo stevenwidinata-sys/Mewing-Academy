@@ -38,6 +38,9 @@
   --heading-shadow: 3px 3px 0 #0c0820;
   /* Content "screen" behind every page (translucent over the 3D background) */
   --surface: rgba(14, 9, 36, 0.62);
+  /* Frame color for the arcade cabinet around the content */
+  --frame: #7b5cff;
+  --frame-dark: #3a2a7a;
 }
 
 /* ---- Background themes. Light themes flip text to dark for readability.
@@ -52,6 +55,8 @@
   --text: #14304d;
   --white: #14304d;
   --accent: #0d5ea8;
+  --frame: #3b8fd4;
+  --frame-dark: #1d5a8f;
   --shadow: #2a5a80;
   --heading-shadow: 2px 2px 0 rgba(255, 255, 255, 0.9);
   --surface: rgba(255, 255, 255, 0.72);
@@ -66,6 +71,8 @@
   --text: #13402a;
   --white: #13402a;
   --accent: #1b7a45;
+  --frame: #2fa36a;
+  --frame-dark: #1b6b43;
   --shadow: #2e6b4a;
   --heading-shadow: 2px 2px 0 rgba(255, 255, 255, 0.9);
   --surface: rgba(255, 255, 255, 0.72);
@@ -80,6 +87,8 @@
   --text: #4a2318;
   --white: #4a2318;
   --accent: #a8360a;
+  --frame: #f07a45;
+  --frame-dark: #a8441f;
   --shadow: #8a3b1f;
   --heading-shadow: 2px 2px 0 rgba(255, 255, 255, 0.9);
   --surface: rgba(255, 255, 255, 0.72);
@@ -104,6 +113,8 @@
   --panel-light: #000000;
   --text: #ffffff;
   --accent: #ffe600;
+  --frame: #ffffff;
+  --frame-dark: #ffffff;
   --focus: #ffffff;
   --white: #ffffff;
   --heading-shadow: 3px 3px 0 #333333;
@@ -822,4 +833,76 @@ main > section > h1:first-child::after {
 }
 :root[data-font='readable'] .topic-tile__name {
   font-size: 0.9rem;
+}
+
+/* ============ Arcade cabinet frame around page content ============ */
+/* A: glass panel tinted by the theme, framed in the theme color
+   C: corner bolts + a strip of blinking cabinet lights on top */
+#main {
+  border: 6px solid var(--frame);
+  box-shadow:
+    0 0 0 4px var(--ink),
+    inset 0 0 0 3px var(--frame-dark),
+    inset 0 0 24px rgba(0, 0, 0, 0.18),
+    10px 10px 0 4px var(--shadow);
+  margin-top: 1.4rem;
+  padding: 2rem 1.5rem 1.5rem;
+}
+/* Corner bolts */
+#main::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  pointer-events: none;
+  --bolt: radial-gradient(circle, #fff 0 2px, #c9c3d9 2px 4px, var(--ink) 4px 5px, transparent 5px);
+  background: var(--bolt) top left / 14px 14px no-repeat, var(--bolt) top right / 14px 14px no-repeat,
+    var(--bolt) bottom left / 14px 14px no-repeat, var(--bolt) bottom right / 14px 14px no-repeat;
+}
+/* Marquee lights strip on top of the cabinet */
+#main::after {
+  content: '';
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  top: -16px;
+  height: 10px;
+  border: 3px solid var(--ink);
+  background-color: var(--frame-dark);
+  background-image: radial-gradient(circle, #ffcc00 0 2.5px, transparent 3px), radial-gradient(circle, #ff5ca8 0 2.5px, transparent 3px), radial-gradient(circle, #27e0d8 0 2.5px, transparent 3px);
+  background-size: 36px 100%;
+  background-position: 0 50%, 12px 50%, 24px 50%;
+  background-repeat: repeat-x;
+  animation: marquee 1.2s steps(3) infinite;
+}
+@keyframes marquee {
+  to { background-position: 12px 50%, 24px 50%, 36px 50%; }
+}
+
+/* B: flowing rainbow pixel border on hovered / focused cards and tiles */
+.card--link:hover,
+.card--link:focus-visible,
+.topic-tile:hover,
+.topic-tile:focus-visible {
+  border-color: transparent;
+  background-image: var(--panel-glow), linear-gradient(90deg, #e83b3b, #ff8a1f, #ffcc00, #3bb54a, #27e0d8, #3b7be8, #9b4de0, #e83b3b);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: 100% 100%, 300% 100%;
+  animation: rainbowFlow 2s linear infinite;
+}
+@keyframes rainbowFlow {
+  to { background-position: 0 0, 300% 0; }
+}
+
+:root[data-contrast='high'] #main {
+  border-color: #fff;
+}
+:root[data-contrast='high'] #main::after {
+  animation: none;
+}
+:root[data-contrast='high'] .card--link:hover,
+:root[data-contrast='high'] .topic-tile:hover {
+  background-image: none;
+  border-color: #ffe600;
+  animation: none;
 }
