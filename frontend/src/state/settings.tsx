@@ -17,6 +17,12 @@ export interface Settings {
   sound: boolean;
   fingerMode: FingerMode;
   autoRead: boolean;
+  /** 8-bit background music (off by default). */
+  music: boolean;
+  /** 0..1 */
+  musicVolume: number;
+  /** Pixel paw cursor with paw-print trail. */
+  pawCursor: boolean;
   mewyFur: FurId;
   mewyItem: ItemId | null;
 }
@@ -31,6 +37,9 @@ const DEFAULTS: Settings = {
   sound: true,
   fingerMode: 'point',
   autoRead: false,
+  music: false,
+  musicVolume: 0.4,
+  pawCursor: true,
   mewyFur: 'yellow',
   mewyItem: null,
 };

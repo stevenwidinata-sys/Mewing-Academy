@@ -88,6 +88,24 @@ export function SettingsPage() {
         <Row label={tr('settingsSound')}>
           <Toggle on={settings.sound} onToggle={() => set('sound', !settings.sound)} labelOn={tr('on')} labelOff={tr('off')} />
         </Row>
+        <Row label={`🎵 ${tr('settingsMusic')}`}>
+          <Toggle on={settings.music} onToggle={() => set('music', !settings.music)} labelOn={tr('on')} labelOff={tr('off')} />
+        </Row>
+        <Row label={tr('settingsMusicVolume')}>
+          <input
+            type="range"
+            min={0}
+            max={1}
+            step={0.1}
+            value={settings.musicVolume}
+            aria-label={tr('settingsMusicVolume')}
+            onChange={(e) => set('musicVolume', Number(e.target.value))}
+            style={{ padding: 0 }}
+          />
+        </Row>
+        <Row label={`🐾 ${tr('settingsPaw')}`}>
+          <Toggle on={settings.pawCursor} onToggle={() => set('pawCursor', !settings.pawCursor)} labelOn={tr('on')} labelOff={tr('off')} />
+        </Row>
         <Row label={`🔊 ${tr('settingsAutoRead')}`}>
           <Toggle on={settings.autoRead} onToggle={() => set('autoRead', !settings.autoRead)} labelOn={tr('on')} labelOff={tr('off')} />
         </Row>

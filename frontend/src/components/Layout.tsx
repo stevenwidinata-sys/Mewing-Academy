@@ -6,6 +6,8 @@ import { useProgress } from '../state/progress';
 import { useSettings } from '../state/settings';
 import { FunBackground } from './FunBackground';
 import { useCardTilt } from './useCardTilt';
+import { useMusic } from '../lib/useMusic';
+import { MusicButton, PawTrail } from './FunExtras';
 import { WatcherMewy } from './WatcherMewy';
 import { Mewy } from './Mewy';
 import { RewardToast } from './RewardToast';
@@ -31,6 +33,7 @@ export function Layout() {
   const { tr, settings, set } = useSettings();
   const { stars } = useProgress();
   useCardTilt();
+  useMusic();
   const [started, setStarted] = useState(() => sessionStorage.getItem(STARTED_KEY) === '1');
   const start = useCallback(() => {
     sessionStorage.setItem(STARTED_KEY, '1');
@@ -58,6 +61,7 @@ export function Layout() {
         </NavLink>
 
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <MusicButton />
           <span className="pixel-panel" style={{ padding: '0.4rem 0.7rem', fontSize: '0.8rem' }} aria-label={`${stars} ${tr('progressTotal')}`}>
             ⭐ {stars}
           </span>
@@ -92,6 +96,7 @@ export function Layout() {
       </main>
       <RewardToast />
       <WatcherMewy />
+      <PawTrail />
 
       <footer style={{ marginTop: '3rem', textAlign: 'center', fontSize: '0.75rem', fontFamily: 'var(--font-read)', opacity: 0.8 }}>
         <p>{tr('cameraPrivacy')}</p>
