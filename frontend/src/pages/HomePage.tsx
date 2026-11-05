@@ -51,9 +51,9 @@ export function HomePage() {
       <h2>{tr('chooseTopic')}</h2>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '1rem' }}>
         {TOPICS.map((topic) => (
-          <Link key={topic.id} to={`/quiz?topic=${topic.id}`} className="btn btn--ghost" style={{ padding: '1rem', textAlign: 'center' }}>
+          <Link key={topic.id} to={`/quiz?topic=${topic.id}`} className="btn btn--ghost topic-tile">
             <TopicIcon emoji={topic.emoji} size={36} />
-            <div style={{ marginTop: 8, fontSize: '0.7rem' }}>{topic.title[settings.lang]}</div>
+            <div className="topic-tile__name">{topic.title[settings.lang]}</div>
           </Link>
         ))}
       </div>
