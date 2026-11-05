@@ -3,6 +3,8 @@ import type { Question } from '../../../shared/types';
 import { questionToSpeech, speak } from '../lib/speak';
 import { useQuiz } from '../lib/useQuiz';
 import { useSettings } from '../state/settings';
+import { BossBar, BossSprite, ComboPop } from './Boss';
+import { bossHp } from '../lib/boss';
 import { CameraStage } from './CameraStage';
 import { ChoiceGrid } from './ChoiceGrid';
 import { Confetti } from './Confetti';
@@ -14,10 +16,12 @@ interface Props {
   questions: Question[];
   onFinish?: (correct: number, total: number) => void;
   renderDone: (correct: number, total: number, restart: () => void) => ReactNode;
+  /** Show a boss with an HP bar that right answers knock down. */
+  boss?: boolean;
 }
 
 /** Plays a list of questions (camera, tap or keyboard). Shared by Hand Quiz and Daily Challenge. */
-export function QuizRunner({ questions, onFinish, renderDone }: Props) {
+export function QuizRunner({ questions, onFinish, renderDone, boss = false }: Props) {
   const { tr, settings } = useSettings();
   const lang = settings.lang;
   const { state, current, pick, next, restart, total } = useQuiz(questions, onFinish);
@@ -45,6 +49,16 @@ export function QuizRunner({ questions, onFinish, renderDone }: Props) {
     return (
       <section style={{ textAlign: 'center' }}>
         <Confetti fire={state.correctCount >= Math.ceil(total / 2) ? state.correctCount : 0} />
+        {boss && (
+          <div className="boss-result">
+            <BossSprite size={state.correctCount >= bossHp(total) ? 56 : 88} />
+            <p style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.8rem' }}>
+              {state.correctCount >= bossHp(total)
+                ? lang === 'en' ? '🏆 BOSS DEFEATED!' : '🏆 BOS DIKALAHKAN!'
+                : lang === 'en' ? 'The boss got away... try again!' : 'Bosnya kabur... coba lagi!'}
+            </p>
+          </div>
+        )}
         {renderDone(state.correctCount, total, restart)}
       </section>
     );
@@ -52,14 +66,17 @@ export function QuizRunner({ questions, onFinish, renderDone }: Props) {
 
   const revealed = state.picked != null;
   const mood = !revealed ? 'think' : state.picked === current.answer ? 'happy' : 'sad';
+  const comboShake = revealed && state.picked === current.answer && state.streak >= 3 && !settings.reduceMotion;
   return (
-    <section>
+    <section className={comboShake ? 'shake' : undefined}>
       <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-pixel)', fontSize: '0.75rem', marginBottom: '0.5rem' }}>
         <span>{state.index + 1} / {total}</span>
         <span>⭐ {state.correctCount}</span>
       </div>
 
+      {boss && <BossBar hits={state.correctCount} total={total} lang={lang} />}
       <MewyBuddy mood={mood} />
+      {revealed && state.picked === current.answer && <ComboPop streak={state.streak} />}
       <h2 style={{ textAlign: 'center' }}>
         {current.prompt[lang]} <SpeakButton text={questionToSpeech(current, lang)} small />
       </h2>

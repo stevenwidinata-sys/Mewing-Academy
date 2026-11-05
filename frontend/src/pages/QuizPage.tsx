@@ -63,6 +63,7 @@ export function QuizPage() {
   return (
     <QuizRunner
       key={round}
+      boss
       questions={questions}
       renderDone={(correct, total) => (
         <>
