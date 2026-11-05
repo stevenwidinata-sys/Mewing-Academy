@@ -4,6 +4,8 @@ import type { StringKey } from '../i18n/strings';
 import { sfx } from '../lib/sound';
 import { useProgress } from '../state/progress';
 import { useSettings } from '../state/settings';
+import { FunBackground } from './FunBackground';
+import { useCardTilt } from './useCardTilt';
 import { Mewy } from './Mewy';
 import { RewardToast } from './RewardToast';
 import { TitleScreen } from './TitleScreen';
@@ -27,6 +29,7 @@ const NAV: { to: string; key: StringKey }[] = [
 export function Layout() {
   const { tr, settings, set } = useSettings();
   const { stars } = useProgress();
+  useCardTilt();
   const [started, setStarted] = useState(() => sessionStorage.getItem(STARTED_KEY) === '1');
   const start = useCallback(() => {
     sessionStorage.setItem(STARTED_KEY, '1');
@@ -37,6 +40,8 @@ export function Layout() {
   if (!started) return <TitleScreen onStart={start} />;
 
   return (
+    <>
+    <FunBackground />
     <div className="app-shell" style={{ maxWidth: 1100, margin: '0 auto', padding: '1rem' }}>
       <a href="#main" className="btn skip-link">{tr('skipToContent')}</a>
 
@@ -94,5 +99,6 @@ export function Layout() {
         <p>Mewing Academy · 2026</p>
       </footer>
     </div>
+    </>
   );
 }

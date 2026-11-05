@@ -711,3 +711,76 @@ main > section > h1:first-child::after {
   position: relative;
   z-index: 1;
 }
+
+/* ============ Flying retro cats, pixel clouds, floating notes ============ */
+.flycat {
+  position: absolute;
+  left: 0;
+  animation: flyRight linear infinite;
+  filter: drop-shadow(0 6px 0 rgba(0, 0, 0, 0.3));
+}
+.flycat--rev {
+  animation-name: flyLeft;
+}
+.flycat--rev .flycat__inner {
+  transform: scaleX(-1);
+}
+.flycat__inner {
+  display: flex;
+  align-items: center;
+}
+/* Six hard-edged rainbow stripes that wiggle like an 8-bit trail */
+.flycat__trail {
+  margin-right: -6px;
+  margin-top: 6%;
+  background: linear-gradient(#e83b3b 0 16.6%, #ff8a1f 16.6% 33.3%, #ffcc00 33.3% 50%, #3bb54a 50% 66.6%, #3b7be8 66.6% 83.3%, #9b4de0 83.3% 100%);
+  mask-image: linear-gradient(to right, transparent, #000 60%);
+  animation: trailWave 0.5s steps(2) infinite;
+}
+.flycat__body {
+  display: block;
+  animation: catBob 0.8s steps(2) infinite;
+}
+@keyframes flyRight {
+  from { transform: translateX(-30vw); }
+  to { transform: translateX(115vw); }
+}
+@keyframes flyLeft {
+  from { transform: translateX(115vw); }
+  to { transform: translateX(-30vw); }
+}
+@keyframes catBob {
+  50% { transform: translateY(-5px) rotate(-5deg); }
+}
+@keyframes trailWave {
+  50% { transform: translateY(3px); }
+}
+.pxcloud {
+  position: absolute;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  animation: drift linear infinite;
+}
+@keyframes drift {
+  from { transform: translateX(-20vw) scale(var(--k)); }
+  to { transform: translateX(110vw) scale(var(--k)); }
+}
+.fun-bg__bubble {
+  position: absolute;
+  bottom: -6%;
+  opacity: 0;
+  text-shadow: 0 0 8px currentColor;
+  animation: rise linear infinite;
+}
+@keyframes rise {
+  0% { opacity: 0; transform: translateY(0) rotate(0); }
+  10% { opacity: 0.55; }
+  90% { opacity: 0.4; }
+  100% { opacity: 0; transform: translateY(-112vh) rotate(25deg); }
+}
+.fun-bg__shooting--2 {
+  top: 40%;
+  animation-delay: 7.5s;
+  animation-duration: 13s;
+}

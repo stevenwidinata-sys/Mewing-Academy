@@ -1,8 +1,12 @@
+import { lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { TOPICS } from '../../../shared/types';
 import { Mewy } from '../components/Mewy';
 import { TopicIcon } from '../components/TopicIcon';
 import { useSettings } from '../state/settings';
+
+// Three.js is loaded only when the Home page is shown.
+const HeroScene = lazy(() => import('../components/HeroScene'));
 
 const GAMES: { to: string; emoji: string; key: 'navQuiz' | 'navMemory' | 'navTutor' | 'navDaily' | 'navCloset' }[] = [
   { to: '/daily', emoji: '📅', key: 'navDaily' },
@@ -17,6 +21,9 @@ export function HomePage() {
   return (
     <section>
       <div className="hero" style={{ marginBottom: '2rem' }}>
+        <Suspense fallback={null}>
+          <HeroScene />
+        </Suspense>
         <span className="hero__float" style={{ left: '8%', top: '20%', fontSize: '2rem' }} aria-hidden="true">⭐</span>
         <span className="hero__float" style={{ right: '10%', top: '30%', fontSize: '1.6rem', animationDelay: '1.5s' }} aria-hidden="true">🎨</span>
         <span className="hero__float" style={{ left: '18%', bottom: '12%', fontSize: '1.4rem', animationDelay: '2.5s' }} aria-hidden="true">🔢</span>

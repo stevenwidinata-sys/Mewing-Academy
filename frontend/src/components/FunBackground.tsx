@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import type { FurId } from '../state/rewards';
 import { useSettings } from '../state/settings';
+import { Mewy } from './Mewy';
 
 // Deterministic "random" so shapes stay put between renders (no Math.random in render).
 let seed = 7;
@@ -22,6 +24,19 @@ const LAYERS = [
     dur: 4 + rand() * 6,
   })),
 }));
+
+// Pixel cloud drawn with box-shadows (8px "pixels").
+const CLOUD_MAP = ['..###...', '.######.', '########', '.######.'];
+const CLOUD_SHADOW = CLOUD_MAP.flatMap((row, y) => [...row].flatMap((ch, x) => (ch === '#' ? [`${x * 8}px ${y * 8}px 0 0 #fff`] : []))).join(',');
+const CLOUDS = Array.from({ length: 5 }, () => ({ top: 6 + rand() * 70, k: 0.8 + rand() * 1.6, dur: 50 + rand() * 40, delay: -rand() * 80, o: 0.08 + rand() * 0.1 }));
+const BUBBLE_CHARS = ['♥', '♪', '★', '✿', '◆'];
+const BUBBLES = Array.from({ length: 10 }, (_, i) => ({ left: rand() * 100, dur: 12 + rand() * 12, delay: -rand() * 24, ch: BUBBLE_CHARS[i % 5], c: COLORS[i % COLORS.length], s: 12 + rand() * 12 }));
+// Retro flying cats (Mewy with a pixel rainbow trail) at different depths.
+const CATS: { fur: FurId; size: number; top: number; dur: number; delay: number; rev?: boolean }[] = [
+  { fur: 'yellow', size: 52, top: 12, dur: 24, delay: -3 },
+  { fur: 'orange', size: 36, top: 62, dur: 32, delay: -14, rev: true },
+  { fur: 'white', size: 26, top: 38, dur: 40, delay: -26 },
+];
 
 const INTERACTIVE = 'a,button,input,select,textarea,video,canvas,label,[role="dialog"]';
 const BURST = ['⭐', '✨', '💛', '🌟', '💫'];
@@ -94,8 +109,33 @@ export function FunBackground() {
               ))}
             </div>
           ))}
+          <div className="fun-bg__layer" style={{ '--depth': '-200px', '--move': '10px' } as React.CSSProperties}>
+            {CLOUDS.map((c, i) => (
+              <span key={i} className="pxcloud" style={{ top: `${c.top}%`, boxShadow: CLOUD_SHADOW, opacity: c.o, '--k': c.k, animationDuration: `${c.dur}s`, animationDelay: `${c.delay}s` } as React.CSSProperties} />
+            ))}
+          </div>
+          <div className="fun-bg__layer" style={{ '--depth': '-80px', '--move': '24px' } as React.CSSProperties}>
+            {BUBBLES.map((b, i) => (
+              <span key={i} className="fun-bg__bubble" style={{ left: `${b.left}%`, color: b.c, fontSize: b.s, animationDuration: `${b.dur}s`, animationDelay: `${b.delay}s` }}>
+                {b.ch}
+              </span>
+            ))}
+          </div>
+          <div className="fun-bg__layer" style={{ '--depth': '-40px', '--move': '40px' } as React.CSSProperties}>
+            {CATS.map((c, i) => (
+              <div key={i} className={`flycat${c.rev ? ' flycat--rev' : ''}`} style={{ top: `${c.top}%`, animationDuration: `${c.dur}s`, animationDelay: `${c.delay}s` }}>
+                <div className="flycat__inner">
+                  <span className="flycat__trail" style={{ width: c.size * 2.6, height: c.size * 0.6 }} />
+                  <span className="flycat__body">
+                    <Mewy size={c.size} fur={c.fur} item={null} mood="happy" title="" />
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
         <span className="fun-bg__shooting" />
+        <span className="fun-bg__shooting fun-bg__shooting--2" />
       </div>
       {bursts.map((b) => (
         <span key={b.id} className="click-burst" aria-hidden="true" style={{ left: b.x, top: b.y }}>
@@ -106,37 +146,4 @@ export function FunBackground() {
       ))}
     </>
   );
-}
-
-/** Cards tilt toward the pointer in 3D, with a soft moving shine. */
-export function useCardTilt() {
-  const { settings } = useSettings();
-  useEffect(() => {
-    if (settings.reduceMotion) return;
-    let current: HTMLElement | null = null;
-    const reset = () => {
-      if (current) current.style.transform = '';
-      current = null;
-    };
-    const onMove = (e: PointerEvent) => {
-      if (e.pointerType === 'touch') return;
-      const el = (e.target as Element).closest<HTMLElement>('.card--link, .tilt');
-      if (el !== current) reset();
-      if (!el) return;
-      current = el;
-      const r = el.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - 0.5;
-      const y = (e.clientY - r.top) / r.height - 0.5;
-      el.style.transform = `perspective(700px) rotateX(${-y * 10}deg) rotateY(${x * 12}deg) translateY(-4px)`;
-      el.style.setProperty('--gx', `${(x + 0.5) * 100}%`);
-      el.style.setProperty('--gy', `${(y + 0.5) * 100}%`);
-    };
-    window.addEventListener('pointermove', onMove);
-    window.addEventListener('pointerleave', reset);
-    return () => {
-      reset();
-      window.removeEventListener('pointermove', onMove);
-      window.removeEventListener('pointerleave', reset);
-    };
-  }, [settings.reduceMotion]);
 }
