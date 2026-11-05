@@ -34,4 +34,9 @@ export const sfx = {
     if (!enabled) return;
     [523, 659, 784, 1047].forEach((f, i) => tone(f, 120, 'square', 0.12, i * 0.08));
   },
+  /** Springy "boing" when a stretched cat snaps back. */
+  boing(enabled: boolean) {
+    if (!enabled) return;
+    [330, 520, 300, 440].forEach((f, i) => tone(f, 70, 'triangle', 0.14, i * 0.05));
+  },
 };

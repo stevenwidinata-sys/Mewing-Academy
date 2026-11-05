@@ -906,3 +906,80 @@ main > section > h1:first-child::after {
   border-color: #ffe600;
   animation: none;
 }
+
+/* ============ Grab-able cats ============ */
+/* 1A: stretchy title-screen Mewy */
+.stretchy {
+  position: relative;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+.stretchy--grabbed {
+  cursor: grabbing;
+}
+.stretchy__head {
+  transition: transform 0.15s ease-out;
+  filter: drop-shadow(0 8px 0 rgba(0, 0, 0, 0.35));
+}
+.stretchy--grabbed .stretchy__head {
+  transition: none;
+}
+.stretchy__head--wobble {
+  animation: boing 0.7s ease-out;
+}
+@keyframes boing {
+  0% { transform: scale(1.25, 0.8); }
+  25% { transform: scale(0.85, 1.18); }
+  45% { transform: scale(1.1, 0.92); }
+  65% { transform: scale(0.96, 1.05); }
+  100% { transform: scale(1, 1); }
+}
+/* The stretched "neck" between where you grabbed and the head */
+.stretchy__neck {
+  position: absolute;
+  left: 50%;
+  top: 70%;
+}
+.stretchy__neck line {
+  stroke: #ffcc00;
+  stroke-width: 22;
+  stroke-linecap: square;
+}
+
+/* 1B: background cats can be grabbed in empty space (content sits above) */
+.flycat__body {
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+}
+.flycat--gone {
+  visibility: hidden;
+}
+.cat-toss {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 70;
+  pointer-events: none;
+  cursor: grabbing;
+  filter: drop-shadow(0 10px 0 rgba(0, 0, 0, 0.35));
+}
+
+/* 1C: corner watcher */
+.watcher {
+  position: fixed;
+  right: 14px;
+  bottom: -12px;
+  z-index: 40;
+  pointer-events: none;
+  transform-origin: bottom center;
+  transition: transform 0.2s ease-out;
+  animation: peek 0.6s ease-out;
+}
+@keyframes peek {
+  from { translate: 0 80px; }
+}
+@media (max-width: 600px) {
+  .watcher { display: none; }
+}

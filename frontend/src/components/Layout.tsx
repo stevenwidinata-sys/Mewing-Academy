@@ -6,6 +6,7 @@ import { useProgress } from '../state/progress';
 import { useSettings } from '../state/settings';
 import { FunBackground } from './FunBackground';
 import { useCardTilt } from './useCardTilt';
+import { WatcherMewy } from './WatcherMewy';
 import { Mewy } from './Mewy';
 import { RewardToast } from './RewardToast';
 import { TitleScreen } from './TitleScreen';
@@ -90,6 +91,7 @@ export function Layout() {
         <Outlet />
       </main>
       <RewardToast />
+      <WatcherMewy />
 
       <footer style={{ marginTop: '3rem', textAlign: 'center', fontSize: '0.75rem', fontFamily: 'var(--font-read)', opacity: 0.8 }}>
         <p>{tr('cameraPrivacy')}</p>

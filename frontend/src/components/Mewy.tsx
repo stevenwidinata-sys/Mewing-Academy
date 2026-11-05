@@ -58,9 +58,11 @@ interface Props {
   /** undefined = use the saved outfit; null = no outfit. */
   item?: ItemId | null;
   mood?: Mood;
+  /** Where the eyes look, each -1..1 (pixels on the 16-wide grid). */
+  look?: { x: number; y: number };
 }
 
-export function Mewy({ size = 64, title = 'Mewy the mascot', fur, item, mood = 'idle' }: Props) {
+export function Mewy({ size = 64, title = 'Mewy the mascot', fur, item, mood = 'idle', look }: Props) {
   const { settings } = useSettings();
   const furId = fur ?? settings.mewyFur;
   const outfit = item === undefined ? settings.mewyItem : item;
@@ -80,10 +82,11 @@ export function Mewy({ size = 64, title = 'Mewy the mascot', fur, item, mood = '
   if (furId === 'calico') {
     r(3, 3, 5, 5, '#ff9a3c'); r(10, 9, 12, 11, '#3a3550'); r(11, 3, 12, 4, '#3a3550');
   }
-  // Eyes (looking up when thinking)
-  const ey = mood === 'think' ? 5 : 6;
-  r(5, ey, 6, ey + 1, eye); r(9, ey, 10, ey + 1, eye);
-  r(5, ey, 5, ey, W); r(9, ey, 9, ey, W);
+  // Eyes (looking up when thinking, or toward `look`)
+  const lx = Math.max(-1, Math.min(1, look?.x ?? 0));
+  const ey = (mood === 'think' ? 5 : 6) + Math.max(-1, Math.min(1, look?.y ?? 0));
+  r(5 + lx, ey, 6 + lx, ey + 1, eye); r(9 + lx, ey, 10 + lx, ey + 1, eye);
+  r(5 + lx, ey, 5 + lx, ey, W); r(9 + lx, ey, 9 + lx, ey, W);
   // Nose
   r(7, 8, 8, 8, PINK);
   // Mouth by mood

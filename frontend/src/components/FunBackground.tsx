@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import type { FurId } from '../state/rewards';
 import { useSettings } from '../state/settings';
+import { CatToss, type TossCat } from './CatToss';
 import { Mewy } from './Mewy';
 
 // Deterministic "random" so shapes stay put between renders (no Math.random in render).
@@ -51,6 +52,13 @@ export function FunBackground() {
   const { pathname } = useLocation();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [bursts, setBursts] = useState<{ id: number; x: number; y: number; e: string }[]>([]);
+  const [toss, setToss] = useState<TossCat | null>(null);
+  const [tossed, setTossed] = useState<number | null>(null);
+  // A thrown cat rejoins the sky a moment after it leaves the screen.
+  const endToss = useCallback(() => {
+    setToss(null);
+    window.setTimeout(() => setTossed(null), 1500);
+  }, []);
   const busy = pathname.startsWith('/quiz') || pathname.startsWith('/memory') || pathname.startsWith('/daily');
   const still = settings.reduceMotion || busy;
 
@@ -123,10 +131,18 @@ export function FunBackground() {
           </div>
           <div className="fun-bg__layer" style={{ '--depth': '-40px', '--move': '40px' } as React.CSSProperties}>
             {CATS.map((c, i) => (
-              <div key={i} className={`flycat${c.rev ? ' flycat--rev' : ''}`} style={{ top: `${c.top}%`, animationDuration: `${c.dur}s`, animationDelay: `${c.delay}s` }}>
+              <div key={i} className={`flycat${c.rev ? ' flycat--rev' : ''}${tossed === i ? ' flycat--gone' : ''}`} style={{ top: `${c.top}%`, animationDuration: `${c.dur}s`, animationDelay: `${c.delay}s` }}>
                 <div className="flycat__inner">
                   <span className="flycat__trail" style={{ width: c.size * 2.6, height: c.size * 0.6 }} />
-                  <span className="flycat__body">
+                  <span
+                    className="flycat__body"
+                    onPointerDown={(e) => {
+                      if (tossed !== null) return;
+                      e.preventDefault();
+                      setTossed(i);
+                      setToss({ fur: c.fur, size: c.size, x: e.clientX, y: e.clientY });
+                    }}
+                  >
                     <Mewy size={c.size} fur={c.fur} item={null} mood="happy" title="" />
                   </span>
                 </div>
@@ -137,6 +153,7 @@ export function FunBackground() {
         <span className="fun-bg__shooting" />
         <span className="fun-bg__shooting fun-bg__shooting--2" />
       </div>
+      {toss && <CatToss cat={toss} onDone={endToss} />}
       {bursts.map((b) => (
         <span key={b.id} className="click-burst" aria-hidden="true" style={{ left: b.x, top: b.y }}>
           {[0, 1, 2, 3, 4, 5].map((k) => (

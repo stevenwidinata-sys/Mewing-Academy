@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSettings } from '../state/settings';
-import { Mewy } from './Mewy';
+import { StretchyMewy } from './StretchyMewy';
 
 /** Arcade-style "PRESS START" screen shown once per visit. */
 export function TitleScreen({ onStart }: { onStart: () => void }) {
@@ -23,7 +23,7 @@ export function TitleScreen({ onStart }: { onStart: () => void }) {
       <div className="title-grid" aria-hidden="true" />
       <div className="title-stage">
         <div className="title-mascot">
-          <Mewy size={120} />
+          <StretchyMewy size={120} />
         </div>
         <h1 id="title-heading" className="title-logo">
           <span>MEWING</span>
